@@ -7,7 +7,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -17,6 +16,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class LandingScene {
+  
+  private static String[]sceneLabels = {"Name","Date of Birth","Gender","Ethnicity","Language","Room Number","School","Screening Comment"};
 
   public LandingScene(Stage stage) {
     stage.setTitle("Digital Vision Screening");
@@ -29,24 +30,22 @@ public class LandingScene {
     Text scenetitle = new Text("Welcome");
     scenetitle.setFont(Font.font("Calibri", FontWeight.NORMAL, 20));
     grid.add(scenetitle, 0, 0, 2, 1);
-
-    Label userName = new Label("Patient Name:");
-    grid.add(userName, 0, 1);
-
-    TextField userTextField = new TextField();
-    grid.add(userTextField, 1, 1);
-
-    Label pw = new Label("School:");
-    grid.add(pw, 0, 2);
-
-    PasswordField pwBox = new PasswordField();
-    grid.add(pwBox, 1, 2);
+    
+    //add a label and textfield for each scene label
+    for (int i = 0; i < sceneLabels.length; i++) {
+      String sceneLabel = sceneLabels[i];
+      Label label = new Label(sceneLabel);
+      grid.add(label, 0, i+1);
+      
+      TextField field = new TextField();
+      grid.add(field, 1, i+1);
+    }
 
     Button btn = new Button("Next");
     HBox hbBtn = new HBox(10);
     hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
     hbBtn.getChildren().add(btn);
-    grid.add(hbBtn, 1, 4);
+    grid.add(hbBtn, 1, sceneLabels.length + 2);
 
     final Text actiontarget = new Text();
     grid.add(actiontarget, 1, 6);
@@ -59,7 +58,7 @@ public class LandingScene {
         }
     });
 
-    Scene scene = new Scene(grid, 300, 275);
+    Scene scene = new Scene(grid, 350, 350);
     stage.setScene(scene);
     stage.show();
   }
