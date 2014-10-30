@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.Builder;
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,14 +15,11 @@ public class Patient {
   private String name, birth, gender, ethnicity, language, roomNumber, school, 
   screeningComment, referral;
   
+  @Setter
   private List<Photo> photos;
   
   @Getter
   private Map<EyeDisease, String> medicalRecord = new EnumMap<>(EyeDisease.class);
-  
-  public Face getFace() {
-    return new Face();
-  }
   
   public void diagnose() {
     // test for all conditions
