@@ -42,10 +42,9 @@ public class Photo {
     }
     return eyes.getRight();
   }
-
-  public Pair<Eye, Eye> findEyes() {
+  
+  private Rect findFaceRoi(Mat image) {
     CascadeClassifier faceDetector = new CascadeClassifier(Main.HAAR_FACE_PATH);
-    Mat image = Highgui.imread(path);
     MatOfRect faceDetections = new MatOfRect();
     faceDetector.detectMultiScale(image, faceDetections);
 
@@ -57,6 +56,13 @@ public class Photo {
     }
     Rect detectedFace = faceDetections.toArray()[0];
     Rect faceBox = new Rect(detectedFace.x, detectedFace.y, detectedFace.width, (detectedFace.height * 2) / 3);
+    return faceBox;
+  }
+
+  public Pair<Eye, Eye> findEyes() {
+    Mat image = Highgui.imread(path);
+    // find face
+    Rect faceBox = findFaceRoi(image);
     // Detect eyes from cropped face image
     CascadeClassifier eyeDetector = new CascadeClassifier(Main.HAAR_EYE_PATH);
     MatOfRect eyeDetections = new MatOfRect();
@@ -66,7 +72,6 @@ public class Photo {
     List<Rect> detectedEyes = eyeDetections.toList();
     log.info(String.format("Detected %s eyes for img: %s", detectedEyes.size(), path));
     List<Rect> eyes = new ArrayList<>(2);
-
     if (detectedEyes.size() > 2) { // found an extra eye or two
       detectedEyes.sort(new EyeAreaCompare());
       // we can safely get the last 2 biggest ones, because after the crop the eyes take up the most space

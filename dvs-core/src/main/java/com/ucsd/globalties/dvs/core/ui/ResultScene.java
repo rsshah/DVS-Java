@@ -24,7 +24,6 @@ public class ResultScene {
     this.controller = controller;
     controller.diagnose();
     medicalRecord = controller.getRecords();
-    stage.setTitle("Digital Vision Screening");
     GridPane grid = new GridPane();
     grid.setAlignment(Pos.CENTER);
     grid.setHgap(10);

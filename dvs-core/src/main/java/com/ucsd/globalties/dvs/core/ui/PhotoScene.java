@@ -26,7 +26,6 @@ public class PhotoScene {
 
   public PhotoScene(Stage stage, Controller controller) {
     this.controller = controller;
-    stage.setTitle("Digital Vision Screening");
     GridPane grid = new GridPane();
     grid.setAlignment(Pos.CENTER);
     grid.setHgap(10);
