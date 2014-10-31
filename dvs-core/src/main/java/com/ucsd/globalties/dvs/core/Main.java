@@ -16,10 +16,12 @@ import com.ucsd.globalties.dvs.core.ui.LandingScene;
 public class Main extends Application {
   private static final String HAAR_FACE = "/haarcascade_frontalface_alt.xml";
   private static final String HAAR_EYE = "/haarcascade_eye.xml";
+  static Controller controller;
   public static String HAAR_FACE_PATH;
   public static String HAAR_EYE_PATH;
   
   public static void main(String[] args) {
+    controller = new Controller();
     // load OpenCV constants
     System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
     HAAR_FACE_PATH = Main.class.getResource(HAAR_FACE).getPath();
@@ -35,7 +37,7 @@ public class Main extends Application {
 
   @Override
   public void start(Stage stage) throws Exception {
-    LandingScene landingScene = new LandingScene(stage);
+    LandingScene landingScene = new LandingScene(stage,controller);
     List<String> imgs = new ArrayList<>(14);
     for (int i = 1; i < 10; i++) {
       if (i == 2) continue;

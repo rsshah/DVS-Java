@@ -1,6 +1,5 @@
 package com.ucsd.globalties.dvs.core;
 
-import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +18,7 @@ public class Patient {
   private List<Photo> photos;
   
   @Getter
-  private Map<EyeDisease, String> medicalRecord = new EnumMap<>(EyeDisease.class);
+  private Map<EyeDisease, String> medicalRecord;
   
   public void diagnose() {
     // test for all conditions
