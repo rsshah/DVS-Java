@@ -3,16 +3,12 @@ package com.ucsd.globalties.dvs.core;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Random;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfRect;
-import org.opencv.core.Point;
 import org.opencv.core.Rect;
-import org.opencv.core.Scalar;
 import org.opencv.highgui.Highgui;
 import org.opencv.objdetect.CascadeClassifier;
 
@@ -73,19 +69,14 @@ public class Photo {
 
     if (detectedEyes.size() > 2) { // found an extra eye or two
       detectedEyes.sort(new EyeAreaCompare());
-      // we can safely get the last 2 biggest ones, because after the crop the
-      // eyes take up the most space
+      // we can safely get the last 2 biggest ones, because after the crop the eyes take up the most space
       eyes.add(detectedEyes.get(detectedEyes.size() - 1));
       eyes.add(detectedEyes.get(detectedEyes.size() - 2));
-      // TODO maybe add some more criteria here and have criterion weights for
-      // better deterministic behavior
+      // TODO maybe add some more criteria here and have criterion weights for more accurate behavior
     } else {
-      for (Rect eyeRect : eyeDetections.toArray()) {
-        eyes.add(eyeRect);
-      }
+      eyes.addAll(eyeDetections.toList());
     }
-    eyes.sort(new EyeXCompare()); // simple sort to know which eye is left and
-                                  // which is right
+    eyes.sort(new EyeXCompare()); // simple sort to know which eye is left and which is right
     Mat leftEyeMat = new Mat(faceImage, eyes.get(0));
     Mat rightEyeMat = new Mat(faceImage, eyes.get(1));
     return new Pair<Eye, Eye>(new Eye(leftEyeMat), new Eye(rightEyeMat));
