@@ -1,8 +1,5 @@
 package com.ucsd.globalties.dvs.core;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javafx.application.Application;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
@@ -38,26 +35,19 @@ public class Main extends Application {
   @Override
   public void start(Stage stage) throws Exception {
     LandingScene landingScene = new LandingScene(stage,controller);
-    List<String> imgs = new ArrayList<>(14);
-    for (int i = 1; i < 10; i++) {
-      if (i == 2) continue;
-      imgs.add("pics/Red0" + i + ".jpg");
-    }
-    imgs.add("pics/redface1.jpg");
-    imgs.add("pics/redface3.jpg");
-    imgs.add("pics/redface3.PNG");
-    imgs.add("pics/redface4.PNG");
-    imgs.add("pics/redface6.PNG");
-    imgs.add("pics/redface10.PNG");
-    for (String img : imgs) {
-      try {
-        String path = Main.class.getResource("/" + img).getPath();
-        final Photo p = new Photo(path.substring(1), PhotoType.VERTICAL);
-        Eye leftEye = p.getLeftEye();
-        Pupil leftPupil = leftEye.getPupil();
-      } catch (Exception e) {
-        log.error("Error for img: " + img);
-      }
+    try {
+      Photo ph = new Photo(Main.class.getResource("/pics/jt_h.jpg").getPath().substring(1), PhotoType.HORIZONTAL);
+      Photo pv = new Photo(Main.class.getResource("/pics/jt_v.jpg").getPath().substring(1), PhotoType.VERTICAL);
+      Eye leftEye_h = ph.getLeftEye();
+      Eye leftEye_v = pv.getLeftEye();
+      Pupil leftPupil_h = leftEye_h.getPupil();
+      Pupil leftPupil_v = leftEye_v.getPupil();
+      Eye rightEye_h = ph.getRightEye();
+      Eye rightEye_v = pv.getRightEye();
+      Pupil rightPupil_h = rightEye_h.getPupil();
+      Pupil rightPupil_v = rightEye_v.getPupil();
+    } catch (Exception e) {
+      log.error("Error for img");
     }
   }
 }

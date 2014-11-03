@@ -34,7 +34,7 @@ public class Eye {
     Mat invertcolormatrix= new Mat(mat.rows(),mat.cols(), mat.type(), new Scalar(255,255,255));
     Core.subtract(invertcolormatrix, mat, mat);
     Imgproc.cvtColor(mat, mat, Imgproc.COLOR_BGR2GRAY);
-//    Imgproc.threshold(mat, mat, 180, 255, Imgproc.THRESH_BINARY);
+    Imgproc.threshold(mat, mat, 180, 255, Imgproc.THRESH_BINARY);
     Random r = new Random();
     Highgui.imwrite("test-" + r.nextInt() + ".jpg", mat);
     Imgproc.GaussianBlur(mat, mat, new Size(9, 9), 2);
@@ -49,7 +49,7 @@ public class Eye {
       center.y = circles.get(0, i)[1];
       Core.circle(mat, center, (int) circles.get(0, i)[2], new Scalar(100,100,100), 1);
     }
-    
+    Highgui.imwrite("mat" + (new Random()).nextInt() + ".jpg", mat);
     return null;
   }
 }

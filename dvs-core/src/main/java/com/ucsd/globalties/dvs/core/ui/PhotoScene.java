@@ -21,7 +21,7 @@ import javafx.stage.Stage;
 import com.ucsd.globalties.dvs.core.Controller;
 
 public class PhotoScene {
-  Controller controller;
+  private Controller controller;
   private String hFilePath, vFilePath;
 
   public PhotoScene(Stage stage, Controller controller) {

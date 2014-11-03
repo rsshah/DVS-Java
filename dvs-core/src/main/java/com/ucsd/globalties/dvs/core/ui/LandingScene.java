@@ -23,8 +23,8 @@ import com.ucsd.globalties.dvs.core.Patient;
 
 public class LandingScene {
 
-  private static String[]sceneLabels = {"Name","Date of Birth","Gender","Ethnicity","Language","Room Number","School","Screening Comment"};
-  Controller controller;
+  private static String[] sceneLabels = {"Name","Date of Birth","Gender","Ethnicity","Language","Room Number","School","Screening Comment"};
+  private Controller controller;
 
   public LandingScene(Stage stage, Controller controller) {
     this.controller = controller;
