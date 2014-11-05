@@ -22,10 +22,12 @@ import com.ucsd.globalties.dvs.core.Controller;
 
 public class PhotoScene {
   private Controller controller;
+  private final Stage stage;
   private String hFilePath, vFilePath;
 
-  public PhotoScene(Stage stage, Controller controller) {
+  public PhotoScene(final Stage stage, Controller controller) {
     this.controller = controller;
+    this.stage = stage;
     GridPane grid = new GridPane();
     grid.setAlignment(Pos.CENTER);
     grid.setHgap(10);
@@ -50,8 +52,8 @@ public class PhotoScene {
     hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
     hbBtn.getChildren().add(btn);    
 
-    ImageView hImageView = new ImageView();
-    ImageView vImageView = new ImageView();
+    final ImageView hImageView = new ImageView();
+    final ImageView vImageView = new ImageView();
 
     hImageView.setFitWidth(100);
     hImageView.setPreserveRatio(true);
@@ -91,8 +93,7 @@ public class PhotoScene {
       //TODO Input verification
       @Override
       public void handle(ActionEvent e) {
-        controller.setPatientPhotos(hFilePath, vFilePath);
-        ResultScene resultScene = new ResultScene(stage, controller);
+        showResultScene();
       }
     });
 
@@ -105,6 +106,11 @@ public class PhotoScene {
     Scene scene = new Scene(grid, 350, 450);
     stage.setScene(scene);
     stage.show();
+  }
+  
+  private void showResultScene() {
+    controller.setPatientPhotos(hFilePath, vFilePath);
+    ResultScene resultScene = new ResultScene(stage, controller);
   }
 
 }

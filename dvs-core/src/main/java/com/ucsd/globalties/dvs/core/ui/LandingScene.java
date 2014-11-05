@@ -25,9 +25,11 @@ public class LandingScene {
 
   private static String[] sceneLabels = {"Name","Date of Birth","Gender","Ethnicity","Language","Room Number","School","Screening Comment"};
   private Controller controller;
+  private Stage stage;
 
   public LandingScene(Stage stage, Controller controller) {
     this.controller = controller;
+    this.stage = stage;
     stage.setTitle("Digital Vision Screening");
     GridPane grid = new GridPane();
     grid.setAlignment(Pos.CENTER);
@@ -64,24 +66,28 @@ public class LandingScene {
       //TODO Verify input information??
       @Override
       public void handle(ActionEvent e) {
-        controller.setPatient(Patient.builder()
-            .name("")
-            .birth("")
-            .gender("")
-            .ethnicity("")
-            .language("")
-            .roomNumber("")
-            .school("")
-            .screeningComment("")
-            .medicalRecord(new EnumMap<>(EyeDisease.class))
-            .build());
-        PhotoScene photoScene = new PhotoScene(stage, controller);
+       showPhotoScene(); 
       }
     });
 
     Scene scene = new Scene(grid, 350, 450);
     stage.setScene(scene);
     stage.show();
-  }  
+  }
+  
+  private void showPhotoScene() {
+    controller.setPatient(Patient.builder()
+        .name("")
+        .birth("")
+        .gender("")
+        .ethnicity("")
+        .language("")
+        .roomNumber("")
+        .school("")
+        .screeningComment("")
+        .medicalRecord(new EnumMap<EyeDisease, String>(EyeDisease.class))
+        .build());
+    PhotoScene photoScene = new PhotoScene(stage, controller);
+  }
 
 }
