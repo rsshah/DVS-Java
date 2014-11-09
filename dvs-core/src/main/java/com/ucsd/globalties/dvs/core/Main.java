@@ -22,13 +22,8 @@ public class Main extends Application {
     // load OpenCV constants
     System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
     HAAR_FACE_PATH = Main.class.getResource(HAAR_FACE).getPath();
-    if (HAAR_FACE_PATH.startsWith("/")) { // weird java bug that returns it prefixed with '/'
-      HAAR_FACE_PATH = HAAR_FACE_PATH.substring(1);
-    }
+    log.info("haar face path: " + HAAR_FACE_PATH);
     HAAR_EYE_PATH = Main.class.getResource(HAAR_EYE).getPath();
-    if (HAAR_EYE_PATH.startsWith("/")) {
-      HAAR_EYE_PATH  = HAAR_EYE_PATH.substring(1);
-    }
     launch(args);
   }
 
@@ -36,8 +31,8 @@ public class Main extends Application {
   public void start(Stage stage) throws Exception {
     LandingScene landingScene = new LandingScene(stage,controller);
     try {
-      Photo ph = new Photo(Main.class.getResource("/pics/jt_h.jpg").getPath().substring(1), PhotoType.HORIZONTAL);
-      Photo pv = new Photo(Main.class.getResource("/pics/jt_v.jpg").getPath().substring(1), PhotoType.VERTICAL);
+      Photo ph = new Photo(Main.class.getResource("/pics/jt_h.jpg").getPath(), PhotoType.HORIZONTAL);
+      Photo pv = new Photo(Main.class.getResource("/pics/jt_v.jpg").getPath(), PhotoType.VERTICAL);
       Eye leftEye_h = ph.getLeftEye();
       Eye leftEye_v = pv.getLeftEye();
       Pupil leftPupil_h = leftEye_h.getPupil();
@@ -47,7 +42,7 @@ public class Main extends Application {
       Pupil rightPupil_h = rightEye_h.getPupil();
       Pupil rightPupil_v = rightEye_v.getPupil();
     } catch (Exception e) {
-      log.error("Error for img");
+      log.error("Error for img", e);
     }
   }
 }

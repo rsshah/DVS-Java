@@ -1,5 +1,6 @@
 package com.ucsd.globalties.dvs.core;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -27,6 +28,9 @@ public class Photo {
 
   public Photo(String path, PhotoType type) {
     this.path = path;
+    if (!new File(path).exists()) {
+    	throw new RuntimeException("Invalid file specified: " + path);
+    }
     this.type = type;
   }
 
@@ -87,7 +91,9 @@ public class Photo {
     Mat leftEyeMat = new Mat(faceImage, eyes.get(0));
     Highgui.imwrite("left_eye_" + type + ".jpg", leftEyeMat);
     Mat rightEyeMat = new Mat(faceImage, eyes.get(1));
-    Highgui.imwrite("right_eye_" + type + ".jpg", leftEyeMat);
+    log.info("created left eye mat: " + leftEyeMat);
+    Highgui.imwrite("right_eye_" + type + ".jpg", rightEyeMat);
+    log.info("created right eye mat: " + rightEyeMat);
     return new Pair<Eye, Eye>(new Eye(leftEyeMat), new Eye(rightEyeMat));
   }
 
