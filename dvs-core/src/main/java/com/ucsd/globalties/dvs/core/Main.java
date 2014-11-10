@@ -1,5 +1,7 @@
 package com.ucsd.globalties.dvs.core;
 
+import java.io.File;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
@@ -21,9 +23,11 @@ public class Main extends Application {
     controller = new Controller();
     // load OpenCV constants
     System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-    HAAR_FACE_PATH = Main.class.getResource(HAAR_FACE).getPath();
-    log.info("haar face path: " + HAAR_FACE_PATH);
-    HAAR_EYE_PATH = Main.class.getResource(HAAR_EYE).getPath();
+    //Workaround for "/" bug, load as file then get filepath
+    File fp = new File(Main.class.getResource(HAAR_FACE).getFile());
+    File ep = new File(Main.class.getResource(HAAR_EYE).getFile());
+    HAAR_FACE_PATH = fp.getAbsolutePath();
+    HAAR_EYE_PATH = ep.getAbsolutePath();
     launch(args);
   }
 
@@ -31,8 +35,11 @@ public class Main extends Application {
   public void start(Stage stage) throws Exception {
     LandingScene landingScene = new LandingScene(stage,controller);
     try {
-      Photo ph = new Photo(Main.class.getResource("/pics/jt_h.jpg").getPath(), PhotoType.HORIZONTAL);
-      Photo pv = new Photo(Main.class.getResource("/pics/jt_v.jpg").getPath(), PhotoType.VERTICAL);
+      //Workaround for "/" bug, load as file then get filepath
+      File fh = new File(Main.class.getResource("/pics/jt_h.jpg").getFile());
+      File fv = new File(Main.class.getResource("/pics/jt_v.jpg").getFile());
+      Photo ph = new Photo(fh.getAbsolutePath(), PhotoType.HORIZONTAL);
+      Photo pv = new Photo(fv.getAbsolutePath(), PhotoType.VERTICAL);
       Eye leftEye_h = ph.getLeftEye();
       Eye leftEye_v = pv.getLeftEye();
       Pupil leftPupil_h = leftEye_h.getPupil();
