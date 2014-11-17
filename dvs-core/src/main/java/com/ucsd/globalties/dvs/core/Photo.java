@@ -54,7 +54,7 @@ public class Photo {
     faceDetector.detectMultiScale(image, faceDetections);
 
     log.info(String.format("Detected %s faces for img: %s", faceDetections.toArray().length, path));
-    if (faceDetections == null || faceDetections.toArray() == null || faceDetections.toArray().length == 0) {
+    if (faceDetections == null || faceDetections.toArray().length == 0) {
       throw new RuntimeException("No face found, please fix image");
     } else if (faceDetections.toArray().length > 1) {
       log.error("More than 1 face detected... YOLOing it with first detected Rect");

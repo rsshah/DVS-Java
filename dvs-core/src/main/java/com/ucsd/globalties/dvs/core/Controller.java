@@ -4,19 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import lombok.Setter;
+
 import com.ucsd.globalties.dvs.core.Photo.PhotoType;
 
 
 public class Controller {
+	
+  @Setter
   private Patient patient;
-  
-  public Controller() {
-    
-  }
-  
-  public void setPatient(Patient patient) {
-    this.patient = patient;
-  }
   
   public void setPatientPhotos(String hFilePath, String vFilePath) {
     List<Photo> photos = new ArrayList<Photo>();

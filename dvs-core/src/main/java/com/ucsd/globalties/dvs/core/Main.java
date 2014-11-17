@@ -34,22 +34,5 @@ public class Main extends Application {
   @Override
   public void start(Stage stage) throws Exception {
     LandingScene landingScene = new LandingScene(stage,controller);
-    try {
-      //Workaround for "/" bug, load as file then get filepath
-      File fh = new File(Main.class.getResource("/pics/jt_h.jpg").getFile());
-      File fv = new File(Main.class.getResource("/pics/jt_v.jpg").getFile());
-      Photo ph = new Photo(fh.getAbsolutePath(), PhotoType.HORIZONTAL);
-      Photo pv = new Photo(fv.getAbsolutePath(), PhotoType.VERTICAL);
-      Eye leftEye_h = ph.getLeftEye();
-      Eye leftEye_v = pv.getLeftEye();
-      Pupil leftPupil_h = leftEye_h.getPupil();
-      Pupil leftPupil_v = leftEye_v.getPupil();
-      Eye rightEye_h = ph.getRightEye();
-      Eye rightEye_v = pv.getRightEye();
-      Pupil rightPupil_h = rightEye_h.getPupil();
-      Pupil rightPupil_v = rightEye_v.getPupil();
-    } catch (Exception e) {
-      log.error("Error for img", e);
-    }
   }
 }
