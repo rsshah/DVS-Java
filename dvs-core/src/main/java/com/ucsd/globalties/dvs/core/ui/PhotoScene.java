@@ -34,13 +34,9 @@ public class PhotoScene {
     grid.setVgap(10);
     grid.setPadding(new Insets(25, 25, 25, 25));
 
-    Text scenetitle = new Text("Welcome");
-    scenetitle.setFont(Font.font("Calibri", FontWeight.NORMAL, 20));
-    grid.add(scenetitle, 0, 0, 2, 1);
-
     Text sceneSubtitle = new Text("Select Patient Photos");
     sceneSubtitle.setFont(Font.font("Calibri", FontWeight.NORMAL,16));
-    grid.add(sceneSubtitle, 1, 0, 2, 1);
+    grid.add(sceneSubtitle, 0, 0, 2, 1);
 
     final FileChooser fileChooser = new FileChooser();
 
@@ -55,12 +51,12 @@ public class PhotoScene {
     final ImageView hImageView = new ImageView();
     final ImageView vImageView = new ImageView();
 
-    hImageView.setFitWidth(100);
+    hImageView.setFitWidth(150);
     hImageView.setPreserveRatio(true);
     hImageView.setSmooth(true);
     hImageView.setCache(true);
 
-    vImageView.setFitWidth(100);
+    vImageView.setFitWidth(150);
     vImageView.setPreserveRatio(true);
     vImageView.setSmooth(true);
     vImageView.setCache(true);

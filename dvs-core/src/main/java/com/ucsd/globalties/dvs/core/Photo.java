@@ -61,7 +61,7 @@ public class Photo {
     }
     Rect detectedFace = faceDetections.toArray()[0];
     Rect faceBox = new Rect(detectedFace.x, detectedFace.y, detectedFace.width, (detectedFace.height * 2) / 3);
-    Highgui.imwrite("face_out_" + type + ".jpg", new Mat(image, faceBox));
+    //Highgui.imwrite("face_out_" + type + ".jpg", new Mat(image, faceBox));
     return faceBox;
   }
 
@@ -89,10 +89,10 @@ public class Photo {
     }
     eyes.sort(new EyeXCompare()); // simple sort to know which eye is left and which is right
     Mat leftEyeMat = new Mat(faceImage, eyes.get(0));
-    Highgui.imwrite("left_eye_" + type + ".jpg", leftEyeMat);
+    //Highgui.imwrite("left_eye_" + type + ".jpg", leftEyeMat);
     Mat rightEyeMat = new Mat(faceImage, eyes.get(1));
     log.info("created left eye mat: " + leftEyeMat);
-    Highgui.imwrite("right_eye_" + type + ".jpg", rightEyeMat);
+    //Highgui.imwrite("right_eye_" + type + ".jpg", rightEyeMat);
     log.info("created right eye mat: " + rightEyeMat);
     return new Pair<Eye, Eye>(new Eye(leftEyeMat), new Eye(rightEyeMat));
   }

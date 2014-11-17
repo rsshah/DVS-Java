@@ -30,13 +30,9 @@ public class ResultScene {
     grid.setVgap(10);
     grid.setPadding(new Insets(25, 25, 25, 25));
     
-    Text scenetitle = new Text("Welcome");
-    scenetitle.setFont(Font.font("Calibri", FontWeight.NORMAL, 20));
-    grid.add(scenetitle, 0, 0, 2, 1);
-    
     Text sceneSubtitle = new Text("Patient Results");
     sceneSubtitle.setFont(Font.font("Calibri", FontWeight.NORMAL,16));
-    grid.add(sceneSubtitle, 1, 0, 2, 1);
+    grid.add(sceneSubtitle, 0, 0, 2, 1);
     
     int index = 0;
     for (Map.Entry<EyeDisease, String> entry : medicalRecord.entrySet()) {
