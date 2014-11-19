@@ -55,7 +55,8 @@ public class Photo {
 
     log.info(String.format("Detected %s faces for img: %s", faceDetections.toArray().length, path));
     if (faceDetections == null || faceDetections.toArray().length == 0) {
-      throw new RuntimeException("No face found, please fix image");
+      // go straight into eye detection on current image if no face is found
+      return null;
     } else if (faceDetections.toArray().length > 1) {
       log.error("More than 1 face detected... YOLOing it with first detected Rect");
     }
@@ -72,7 +73,7 @@ public class Photo {
     // Detect eyes from cropped face image
     CascadeClassifier eyeDetector = new CascadeClassifier(Main.HAAR_EYE_PATH);
     MatOfRect eyeDetections = new MatOfRect();
-    Mat faceImage = new Mat(image, faceBox);
+    Mat faceImage = faceBox != null ? new Mat(image, faceBox) : image;
     eyeDetector.detectMultiScale(faceImage, eyeDetections);
 
     List<Rect> detectedEyes = eyeDetections.toList();
@@ -89,10 +90,10 @@ public class Photo {
     }
     eyes.sort(new EyeXCompare()); // simple sort to know which eye is left and which is right
     Mat leftEyeMat = new Mat(faceImage, eyes.get(0));
-    //Highgui.imwrite("left_eye_" + type + ".jpg", leftEyeMat);
+    Highgui.imwrite("left_eye_" + type + ".jpg", leftEyeMat);
     Mat rightEyeMat = new Mat(faceImage, eyes.get(1));
     log.info("created left eye mat: " + leftEyeMat);
-    //Highgui.imwrite("right_eye_" + type + ".jpg", rightEyeMat);
+    Highgui.imwrite("right_eye_" + type + ".jpg", rightEyeMat);
     log.info("created right eye mat: " + rightEyeMat);
     return new Pair<Eye, Eye>(new Eye(leftEyeMat), new Eye(rightEyeMat));
   }

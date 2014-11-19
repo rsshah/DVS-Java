@@ -54,7 +54,7 @@ public class Eye {
     Core.subtract(invertcolormatrix, src, invt);
     Imgproc.cvtColor(invt, gray, Imgproc.COLOR_BGR2GRAY);
     // use 220,225 for ideal image
-    Imgproc.threshold(gray, gray, 175, 180, Imgproc.THRESH_BINARY);
+    Imgproc.threshold(gray, gray, 160, 180, Imgproc.THRESH_BINARY);
     List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
     Imgproc.findContours(gray.clone(), contours, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_NONE);
     Imgproc.drawContours(gray, contours, -1, new Scalar(255, 255, 255), -1);
@@ -81,7 +81,7 @@ public class Eye {
     }
     if (pupilMat == null) {
       log.error("Unable to find an adequate pupil");
-      throw new RuntimeException();
+      return null;
     }
     Highgui.imwrite("pupil-" + code + ".jpg", pupilMat);
     return new Pupil(pupilMat);
