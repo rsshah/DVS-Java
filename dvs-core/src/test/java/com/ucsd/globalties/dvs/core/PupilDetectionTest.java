@@ -16,7 +16,7 @@ import com.ucsd.globalties.dvs.core.Photo.PhotoType;
 public class PupilDetectionTest {
   private static final List<String> TEST_IMAGES = Arrays.asList("Andrei.JPG", "Daniel.JPG", "jt_h.jpg", "jt_v.jpg");
   
-  
+  /*
   @Before
   public void clean() {
     for (Iterator<String> it = TEST_IMAGES.iterator(); it.hasNext();) {
@@ -38,5 +38,5 @@ public class PupilDetectionTest {
       p.getLeftEye().getPupil().getWhiteDot();
       p.getRightEye().getPupil().getWhiteDot();
     }
-  }
+  }*/
 }
