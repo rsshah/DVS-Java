@@ -13,12 +13,21 @@ public class Controller {
 	
   @Setter
   private Patient patient;
+  private List<Patient> sessionPatients;
   
   public void setPatientPhotos(String hFilePath, String vFilePath) {
     List<Photo> photos = new ArrayList<Photo>();
     photos.add(new Photo(hFilePath, PhotoType.HORIZONTAL));
     photos.add(new Photo(vFilePath, PhotoType.VERTICAL));
     patient.setPhotos(photos);
+  }
+  
+  public void finalizePatient() {
+    if (sessionPatients == null) {
+      sessionPatients = new ArrayList<Patient>();
+    }
+    sessionPatients.add(patient);
+    patient = null;
   }
   
   public void diagnose() {
