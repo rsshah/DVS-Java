@@ -18,6 +18,9 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import org.controlsfx.control.action.Action;
+import org.controlsfx.dialog.Dialogs;
+
 import com.ucsd.globalties.dvs.core.Controller;
 
 public class PhotoScene {
@@ -39,6 +42,7 @@ public class PhotoScene {
     grid.add(sceneSubtitle, 0, 0, 2, 1);
 
     final FileChooser fileChooser = new FileChooser();
+    fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
 
     Button hOpenBtn = new Button("Select Horizontal Picture");    
     Button vOpenBtn = new Button("Select Vertical Picture");
@@ -66,6 +70,7 @@ public class PhotoScene {
           @Override
           public void handle(final ActionEvent e) {
             File file = fileChooser.showOpenDialog(stage);
+            fileChooser.setInitialDirectory(file.getParentFile());
             if (file!=null) {
               hFilePath = file.getAbsolutePath();
               hImageView.setImage(new Image("file:///"+hFilePath));
@@ -78,6 +83,7 @@ public class PhotoScene {
           @Override
           public void handle(final ActionEvent e) {
             File file = fileChooser.showOpenDialog(stage);
+            fileChooser.setInitialDirectory(file.getParentFile());
             if (file!=null) {
               vFilePath = file.getAbsolutePath();
               vImageView.setImage(new Image("file:///"+vFilePath));
@@ -89,7 +95,18 @@ public class PhotoScene {
       //TODO Input verification
       @Override
       public void handle(ActionEvent e) {
-        showResultScene();
+        if (vFilePath == null || hFilePath == null) {
+          //controlfx dialogs is deprecated since it will be merged into java
+          //planned for 8u40, sometime March 2015
+          Action alert = Dialogs.create()
+              .owner(stage)
+              .title("Alert!")
+              .message("Please select the appropriate images.")
+              .showError();
+        }
+        else {
+          showResultScene();
+        }
       }
     });
 

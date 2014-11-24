@@ -8,7 +8,7 @@
 	<properties>
 		<lombok.version>1.14.8</lombok.version>
 		<slf4j.version>1.7.7</slf4j.version>
-		<controlsfx.version>8.20.7</controlsfx.version>
+		<controlsfx.version>8.20.8</controlsfx.version>
 		<opencv.version>2.4.9-7</opencv.version>
 		<guava.version>18.0</guava.version>
 	</properties>

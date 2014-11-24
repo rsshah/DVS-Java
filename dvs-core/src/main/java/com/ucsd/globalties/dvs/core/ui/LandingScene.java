@@ -1,6 +1,8 @@
 package com.ucsd.globalties.dvs.core.ui;
 
 import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.Map;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -24,6 +26,7 @@ import com.ucsd.globalties.dvs.core.Patient;
 public class LandingScene {
 
   private static String[] sceneLabels = {"Name","Date of Birth","Gender","Ethnicity","Language","Room Number","School","Screening Comment"};
+  private Map<String,String> inputValues = new HashMap<String,String>();
   private Controller controller;
   private Stage stage;
 
@@ -47,11 +50,17 @@ public class LandingScene {
 
     //add a label and textfield for each scene label
     for (int i = 0; i < sceneLabels.length; i++) {
-      String sceneLabel = sceneLabels[i];
+      final String sceneLabel = sceneLabels[i];
       Label label = new Label(sceneLabel);
       grid.add(label, 0, i+1);
 
-      TextField field = new TextField();
+      final TextField field = new TextField();
+      field.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent arg0) {
+          inputValues.put(sceneLabel, field.getText());
+        }        
+      });
       grid.add(field, 1, i+1);
     }
 
@@ -62,11 +71,9 @@ public class LandingScene {
     grid.add(hbBtn, 1, sceneLabels.length + 2);
 
     btn.setOnAction(new EventHandler<ActionEvent>() {
-      //TODO Get patient information from the input fields
-      //TODO Verify input information??
       @Override
       public void handle(ActionEvent e) {
-       showPhotoScene(); 
+       submitInformation(); 
       }
     });
 
@@ -75,16 +82,18 @@ public class LandingScene {
     stage.show();
   }
   
-  private void showPhotoScene() {
+  private void submitInformation() {
+    int i = 0;
+    //TODO input validation
     controller.setPatient(Patient.builder()
-        .name("")
-        .birth("")
-        .gender("")
-        .ethnicity("")
-        .language("")
-        .roomNumber("")
-        .school("")
-        .screeningComment("")
+        .name(inputValues.get(sceneLabels[i++]))
+        .birth(inputValues.get(sceneLabels[i++]))
+        .gender(inputValues.get(sceneLabels[i++]))
+        .ethnicity(inputValues.get(sceneLabels[i++]))
+        .language(inputValues.get(sceneLabels[i++]))
+        .roomNumber(inputValues.get(sceneLabels[i++]))
+        .school(inputValues.get(sceneLabels[i++]))
+        .screeningComment(inputValues.get(sceneLabels[i++]))
         .medicalRecord(new EnumMap<EyeDisease, String>(EyeDisease.class))
         .build());
     PhotoScene photoScene = new PhotoScene(stage, controller);
