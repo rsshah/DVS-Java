@@ -54,13 +54,19 @@ public class Photo {
     faceDetector.detectMultiScale(image, faceDetections);
 
     log.info(String.format("Detected %s faces for img: %s", faceDetections.toArray().length, path));
+    Rect detectedFace;
     if (faceDetections == null || faceDetections.toArray().length == 0) {
       // go straight into eye detection on current image if no face is found
       return null;
     } else if (faceDetections.toArray().length > 1) {
-      log.error("More than 1 face detected... YOLOing it with first detected Rect");
+      //TODO sort face images and return largest??
+      log.error("More than 1 face detected... returning null");
+      detectedFace = faceDetections.toArray()[1];
+      //return null;
     }
-    Rect detectedFace = faceDetections.toArray()[0];
+    else {
+      detectedFace = faceDetections.toArray()[0];
+    }
     Rect faceBox = new Rect(detectedFace.x, detectedFace.y, detectedFace.width, (detectedFace.height * 2) / 3);
     //Highgui.imwrite("face_out_" + type + ".jpg", new Mat(image, faceBox));
     return faceBox;

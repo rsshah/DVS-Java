@@ -14,7 +14,7 @@ public class Patient {
   private String name, birth, gender, ethnicity, language, roomNumber, school, 
   screeningComment, referral;
   
-  @Setter
+  @Setter @Getter
   private List<Photo> photos;
   
   @Getter

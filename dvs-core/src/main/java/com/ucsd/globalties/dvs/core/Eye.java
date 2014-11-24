@@ -7,10 +7,8 @@ import java.util.Random;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
-import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
-import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.highgui.Highgui;
@@ -46,17 +44,15 @@ public class Eye {
   private Pupil findPupil() {
     int code = (new Random()).nextInt();
     Mat src = new Mat();
-    Mat invt = new Mat();
     mat.copyTo(src);
-    mat.copyTo(invt);
     Mat gray = new Mat();
-    Mat invertcolormatrix = new Mat(src.rows(), src.cols(), src.type(), new Scalar(255, 255, 255));
-    Core.subtract(invertcolormatrix, src, invt);
-    Imgproc.cvtColor(invt, gray, Imgproc.COLOR_BGR2GRAY);
+    //removed inverted image, can just use Imgproc.THRESH_BINARY_INV to invert
+    Imgproc.cvtColor(src, gray, Imgproc.COLOR_BGR2GRAY);
     // use 220,225 for ideal image
-    Imgproc.threshold(gray, gray, 160, 180, Imgproc.THRESH_BINARY);
+    Double thresh = Imgproc.threshold(gray, gray, 0, 255, Imgproc.THRESH_BINARY_INV | Imgproc.THRESH_OTSU);
+    //log.info("Found optimal thresh: "+thresh);
     List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
-    Imgproc.findContours(gray.clone(), contours, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_NONE);
+    Imgproc.findContours(gray.clone(), contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
     Imgproc.drawContours(gray, contours, -1, new Scalar(255, 255, 255), -1);
     Mat pupilMat = null;
     for (int i = 0; i < contours.size(); i++) {
@@ -70,20 +66,23 @@ public class Eye {
       // Should refine last condition so it is usable condition, might be able
       // to use to center point perfectly
       double boundingArea = Math.abs(1 - ((double) rect.width / (double) rect.height));
-      if (area >= 1000 && boundingArea <= 0.2) {
+      double boundingCircle = Math.abs(1 - (area / (Math.PI * Math.pow(radius, 2))));
+      if (area >= 500 && boundingArea <= 0.2 ) {
         double unk = Math.abs(1 - (area / (Math.PI * Math.pow(radius, 2))));
         log.info("Contour info: Area " + area + " first arg " + boundingArea + " second arg " + unk);
         if (pupilMat != null) {
-          log.warn("Setting pupilMat after a valid one had already been found.");
+          log.warn("Another pupil match was found and is being ignored.");
         }
-        pupilMat = new Mat(src, rect);
+        if (pupilMat == null) {
+          pupilMat = new Mat(src, rect);
+        }
       }
     }
     if (pupilMat == null) {
       log.error("Unable to find an adequate pupil");
       return null;
     }
-    Highgui.imwrite("pupil-" + code + ".jpg", pupilMat);
+    Highgui.imwrite(""+code+"-pupil.jpg", pupilMat);
     return new Pupil(pupilMat);
   }
 }

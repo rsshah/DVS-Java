@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.opencv.core.Core;
 
-import com.ucsd.globalties.dvs.core.Photo.PhotoType;
 import com.ucsd.globalties.dvs.core.ui.LandingScene;
 
 @Slf4j
@@ -19,6 +18,11 @@ public class Main extends Application {
   public static String HAAR_EYE_PATH;
   
   public static void main(String[] args) {
+    loadLibraryComponents();
+    launch(args);
+  }
+  
+  public static void loadLibraryComponents() {
     // load OpenCV constants
     System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
     //Workaround for "/" thing, load as file then get filepath
@@ -26,8 +30,6 @@ public class Main extends Application {
     File ep = new File(Main.class.getResource(HAAR_EYE).getFile());
     HAAR_FACE_PATH = fp.getAbsolutePath();
     HAAR_EYE_PATH = ep.getAbsolutePath();
-    
-    launch(args);
   }
 
   @Override
