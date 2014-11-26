@@ -46,11 +46,13 @@ public class PhotoScene {
 
     Button hOpenBtn = new Button("Select Horizontal Picture");    
     Button vOpenBtn = new Button("Select Vertical Picture");
-
-    Button btn = new Button("Next");
+    
+    Button backBtn = new Button("Back");
+    Button nextBtn = new Button("Next");
     HBox hbBtn = new HBox(10);
     hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
-    hbBtn.getChildren().add(btn);    
+    hbBtn.getChildren().add(backBtn);
+    hbBtn.getChildren().add(nextBtn);  
 
     final ImageView hImageView = new ImageView();
     final ImageView vImageView = new ImageView();
@@ -77,7 +79,7 @@ public class PhotoScene {
             }
           }
         });
-
+    
     vOpenBtn.setOnAction(
         new EventHandler<ActionEvent>() {
           @Override
@@ -90,8 +92,16 @@ public class PhotoScene {
             }
           }
         });
-
-    btn.setOnAction(new EventHandler<ActionEvent>() {
+    
+    // Takes the user back to the landing page
+    backBtn.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent e) {
+          showLandingScene();
+        }
+    });
+    
+    nextBtn.setOnAction(new EventHandler<ActionEvent>() {
       //TODO Input verification
       @Override
       public void handle(ActionEvent e) {
@@ -121,9 +131,14 @@ public class PhotoScene {
     stage.show();
   }
   
+  // 
   private void showResultScene() {
     controller.setPatientPhotos(hFilePath, vFilePath);
     ResultScene resultScene = new ResultScene(stage, controller);
+  }
+  
+  private void showLandingScene() {
+	  LandingScene landingScene = new LandingScene(stage, controller);
   }
 
 }
