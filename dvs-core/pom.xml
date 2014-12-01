@@ -11,6 +11,7 @@
 		<controlsfx.version>8.20.8</controlsfx.version>
 		<opencv.version>2.4.9-7</opencv.version>
 		<guava.version>18.0</guava.version>
+		<apache-poi.version>3.10.1</apache-poi.version>
 	</properties>
 
 	<dependencies>
@@ -44,6 +45,12 @@
 			<artifactId>guava</artifactId>
 			<version>${guava.version}</version>
 		</dependency>
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi</artifactId>
+		    <version>${apache-poi.version}</version>
+		</dependency>
+		
 
 		<dependency>
 			<groupId>junit</groupId>
