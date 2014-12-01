@@ -7,9 +7,6 @@ import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
 import com.ucsd.globalties.dvs.core.Photo.PhotoType;
 import com.ucsd.globalties.dvs.core.tools.Pair;
 
@@ -27,18 +24,24 @@ public class PupilDetectionTest {
                                                                   new Pair<String,String>("Gian_2.jpg","Gian_3.jpg"),
                                                                   new Pair<String,String>("Leon_2.jpg","Leon_3.jpg"));
   
-  @Before
-  public void clean() {
+  
+  public static void main(String[] args) {
+    Main.loadLibraryComponents();
+    clean();
+    run();
+  }
+  
+  public static void clean() {
     Main.loadLibraryComponents();
     for (Iterator<Pair<String,String>> it = TEST_PAIRS.iterator(); it.hasNext();) {
       Pair<String, String> picPair = it.next();
-      File fst = new File(getClass().getResource("/pics/" + picPair.getLeft()).getFile());
+      File fst = new File(PupilDetectionTest.class.getResource("/pics/" + picPair.getLeft()).getFile());
       if (!fst.exists()) {
         log.warn("pic file: " + fst.getAbsolutePath() + " does not exist");
         it.remove();
         continue;
       }
-      File snd = new File(getClass().getResource("/pics/" + picPair.getRight()).getFile());
+      File snd = new File(PupilDetectionTest.class.getResource("/pics/" + picPair.getRight()).getFile());
       if (!fst.exists()) {
         log.warn("pic file: " + snd.getAbsolutePath() + " does not exist");
         it.remove();
@@ -46,8 +49,7 @@ public class PupilDetectionTest {
     }
   }
   
-  @Test
-  public void run() {
+  public static void run() {
     int found = 0;
     int total = 0;
     int[] results = new int[TEST_PAIRS.size()];
@@ -55,8 +57,8 @@ public class PupilDetectionTest {
       Pair<String, String> test = TEST_PAIRS.get(i);
       found = 0;
       try {
-        File l = new File(getClass().getResource("/pics/" + test.getLeft()).getFile());
-        File r = new File(getClass().getResource("/pics/" + test.getRight()).getFile());
+        File l = new File(PupilDetectionTest.class.getResource("/pics/" + test.getLeft()).getFile());
+        File r = new File(PupilDetectionTest.class.getResource("/pics/" + test.getRight()).getFile());
         Photo pL = new Photo(l.getAbsolutePath(), PhotoType.VERTICAL);
         Photo pR = new Photo(r.getAbsolutePath(), PhotoType.HORIZONTAL);
         if (pL.getLeftEye().getPupil() != null) {
@@ -84,7 +86,9 @@ public class PupilDetectionTest {
     }
     log.info("Test complete. Double check all results by looking at the images.");
     log.info(String.format("Found: %d/%d",total, TEST_PAIRS.size()*4));
-    Assert.assertTrue(total == TEST_PAIRS.size()*4);
+    if (total != TEST_PAIRS.size() * 4) {
+      log.error("Expected: " + (TEST_PAIRS.size() * 4) + " images, found: " + total);
+    }
   }
 }
  
