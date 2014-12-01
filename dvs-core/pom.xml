@@ -50,7 +50,11 @@
 		    <artifactId>poi</artifactId>
 		    <version>${apache-poi.version}</version>
 		</dependency>
-		
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi-ooxml</artifactId>
+		    <version>${apache-poi.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>

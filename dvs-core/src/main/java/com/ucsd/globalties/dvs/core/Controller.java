@@ -7,13 +7,14 @@ import java.util.Map;
 import lombok.Setter;
 
 import com.ucsd.globalties.dvs.core.Photo.PhotoType;
+import com.ucsd.globalties.dvs.core.excel.ExcelDataGenerator;
 
 
 public class Controller {
 	
   @Setter
-  private Patient patient;
-  private List<Patient> sessionPatients;
+  private Patient patient = null;
+  private List<Patient> sessionPatients = null;
   
   public void setPatientPhotos(String hFilePath, String vFilePath) {
     List<Photo> photos = new ArrayList<Photo>();
@@ -36,6 +37,10 @@ public class Controller {
   
   public Map<EyeDisease, String> getRecords() {
     return patient.getMedicalRecord();
+  }
+
+  public void exportData() {
+    ExcelDataGenerator.exportPatientData(sessionPatients);
   }
 
 }
