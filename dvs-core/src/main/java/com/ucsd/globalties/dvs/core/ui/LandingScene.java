@@ -77,7 +77,7 @@ public class LandingScene {
       }
     });
 
-    Scene scene = new Scene(grid, 350, 450);
+    Scene scene = new Scene(grid);
     stage.setScene(scene);
     stage.show();
   }
