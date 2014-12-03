@@ -14,10 +14,12 @@ import com.ucsd.globalties.dvs.core.ui.LandingScene;
 public class Main extends Application {
   private static final String HAAR_FACE = "/haarcascade_frontalface_alt.xml";
   private static final String HAAR_EYE = "/haarcascade_eye.xml";
+  private static Controller controller;
   public static String HAAR_FACE_PATH;
   public static String HAAR_EYE_PATH;
   
   public static void main(String[] args) {
+    controller = new Controller();
     loadLibraryComponents();
     launch(args);
   }
@@ -30,6 +32,10 @@ public class Main extends Application {
     File ep = new File(Main.class.getResource(HAAR_EYE).getFile());
     HAAR_FACE_PATH = fp.getAbsolutePath();
     HAAR_EYE_PATH = ep.getAbsolutePath();
+  }
+  
+  public static Controller getController() {
+    return controller;
   }
 
   @Override
