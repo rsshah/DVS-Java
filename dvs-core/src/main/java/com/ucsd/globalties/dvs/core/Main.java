@@ -1,14 +1,16 @@
 package com.ucsd.globalties.dvs.core;
 
 import java.io.File;
+import java.io.IOException;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 
 import org.opencv.core.Core;
-
-import com.ucsd.globalties.dvs.core.ui.LandingScene;
 
 @Slf4j
 public class Main extends Application {
@@ -40,6 +42,15 @@ public class Main extends Application {
 
   @Override
   public void start(Stage stage) throws Exception {
-    LandingScene landingScene = new LandingScene(stage, new Controller());
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/main.fxml"));
+    VBox vbox;
+    try {
+      vbox = (VBox) loader.load();
+      stage.setScene(new Scene(vbox));
+      stage.show();
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 }

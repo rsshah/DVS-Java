@@ -5,14 +5,13 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
-<VBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ucsd.globalties.dvs.core.ui.LandingController">
+<VBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ucsd.globalties.dvs.core.ui.MainController">
    <children>
       <MenuBar>
         <menus>
           <Menu mnemonicParsing="false" text="More">
             <items>
-              <MenuItem mnemonicParsing="false" text="Export to Excel" />
+              <MenuItem fx:id="exportItem" mnemonicParsing="false" text="Export to Excel" />
             </items>
           </Menu>
         </menus>

@@ -22,6 +22,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -31,23 +32,26 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 
-public class LandingController implements Initializable {
+public class MainController implements Initializable {
   private static String[] sceneLabels = {"Name","Date of Birth","Gender","Ethnicity","Language","Room Number","School","Screening Comment"};
-  private Map<String,String> inputValues = new HashMap<String,String>();
+  private Map<String,TextField> inputValues = new HashMap<String,TextField>();
   private Map<EyeDisease, String> medicalRecord = new HashMap<EyeDisease,String>();
   private String hFilePath, vFilePath;
   private Controller controller;
 
+  //Value injected by FXMLLoader
   @FXML
   private VBox root;
   @FXML
   private StackPane stackPane;
   @FXML
-  private GridPane inputGrid; // Value injected by FXMLLoader
+  private GridPane inputGrid;
   @FXML
   private GridPane photoGrid;
   @FXML
   private GridPane resultGrid;
+  @FXML
+  private MenuItem exportItem;
 
   @Override // This method is called by the FXMLLoader when initialization is complete
   public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
@@ -56,37 +60,35 @@ public class LandingController implements Initializable {
     assert inputGrid != null : "fx:id=\"inputGrid\" was not injected: check your FXML file 'landing.fxml'.";
     assert photoGrid != null : "fx:id=\"photoGrid\" was not injected: check your FXML file 'landing.fxml'.";
     assert resultGrid != null : "fx:id=\"resultGrid\" was not injected: check your FXML file 'landing.fxml'.";
+    assert exportItem != null : "fx:id=\"exportItem\" was not injected: check your FXML file 'landing.fxml'.";
 
     // initialize logic here: all @FXML variables will have been injected
     this.controller = Main.getController();
+    exportItem.setOnAction(new EventHandler<ActionEvent>() {
+      public void handle(ActionEvent t) {
+        controller.exportData();
+      }
+    });
     stackPane.getChildren().clear();
     stackPane.getChildren().add(inputGrid);
 
     this.setupInputGrid();
     this.setupPhotoGrid();
-    this.setupResultGrid();
-
   }
 
   private void setupInputGrid() {
     for (int i = 0; i < sceneLabels.length; i++) {
-      final String sceneLabel = sceneLabels[i];
+      String sceneLabel = sceneLabels[i];
       Label label = new Label(sceneLabel);
 
-
-      final TextField field = new TextField();
-      field.setOnAction(new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent arg0) {
-          inputValues.put(sceneLabel, field.getText());
-        }        
-      });
+      TextField field = new TextField();
+      inputValues.put(sceneLabel, field);
       inputGrid.add(label, 0, i);
       inputGrid.add(field, 1, i);
     }
     Button btn = new Button("Next");
     HBox hbBtn = new HBox(10);
-    hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
+    hbBtn.setAlignment(Pos.BOTTOM_LEFT);
     hbBtn.getChildren().add(btn);
     inputGrid.add(hbBtn, 1, sceneLabels.length + 2);
 
@@ -104,13 +106,21 @@ public class LandingController implements Initializable {
 
     Button hOpenBtn = new Button("Select Horizontal Picture");    
     Button vOpenBtn = new Button("Select Vertical Picture");
+    HBox hbHOpenBtn = new HBox(10);
+    HBox vbVOpenBtn = new HBox(10);
+    hbHOpenBtn.setAlignment(Pos.CENTER);
+    hbHOpenBtn.getChildren().add(hOpenBtn);
+    vbVOpenBtn.setAlignment(Pos.CENTER);
+    vbVOpenBtn.getChildren().add(vOpenBtn);
 
     Button backBtn = new Button("Back");
     Button nextBtn = new Button("Next");
-    HBox hbBtn = new HBox(10);
-    hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
-    hbBtn.getChildren().add(backBtn);
-    hbBtn.getChildren().add(nextBtn);  
+    HBox hbBackBtn = new HBox(10);
+    HBox hbNextBtn = new HBox(10);
+    hbBackBtn.setAlignment(Pos.BOTTOM_RIGHT);
+    hbBackBtn.getChildren().add(backBtn);
+    hbNextBtn.setAlignment(Pos.BOTTOM_LEFT);
+    hbNextBtn.getChildren().add(nextBtn);  
 
     final ImageView hImageView = new ImageView();
     final ImageView vImageView = new ImageView();
@@ -178,11 +188,12 @@ public class LandingController implements Initializable {
       }
     });
 
-    photoGrid.add(hOpenBtn, 0, 0);
-    photoGrid.add(vOpenBtn, 1, 0);
-    photoGrid.add(hImageView, 0, 2);
-    photoGrid.add(vImageView, 1, 2);
-    photoGrid.add(hbBtn, 0, 3);
+    photoGrid.add(hbHOpenBtn, 0, 0);
+    photoGrid.add(vbVOpenBtn, 1, 0);
+    photoGrid.add(hImageView, 0, 1);
+    photoGrid.add(vImageView, 1, 1);
+    photoGrid.add(hbBackBtn, 0, 2);
+    photoGrid.add(hbNextBtn, 1, 2);
   }
 
 
@@ -206,40 +217,47 @@ public class LandingController implements Initializable {
     }
     resultGrid.add(startOver, 1, medicalRecord.size()+3);
   }
-  
+
   private void showResultGrid() {
     controller.setPatientPhotos(hFilePath, vFilePath);
     controller.diagnose();
     medicalRecord = controller.getRecords();
     stackPane.getChildren().remove(photoGrid);
+    this.setupResultGrid();
     stackPane.getChildren().add(resultGrid);
   }
-  
+
   private void showPhotoGrid() {
     int i = 0;
     controller.setPatient(Patient.builder()
-        .name(inputValues.get(sceneLabels[i++]))
-        .birth(inputValues.get(sceneLabels[i++]))
-        .gender(inputValues.get(sceneLabels[i++]))
-        .ethnicity(inputValues.get(sceneLabels[i++]))
-        .language(inputValues.get(sceneLabels[i++]))
-        .roomNumber(inputValues.get(sceneLabels[i++]))
-        .school(inputValues.get(sceneLabels[i++]))
-        .screeningComment(inputValues.get(sceneLabels[i++]))
+        .name(inputValues.get(sceneLabels[i++]).getText())
+        .birth(inputValues.get(sceneLabels[i++]).getText())
+        .gender(inputValues.get(sceneLabels[i++]).getText())
+        .ethnicity(inputValues.get(sceneLabels[i++]).getText())
+        .language(inputValues.get(sceneLabels[i++]).getText())
+        .roomNumber(inputValues.get(sceneLabels[i++]).getText())
+        .school(inputValues.get(sceneLabels[i++]).getText())
+        .screeningComment(inputValues.get(sceneLabels[i++]).getText())
         .medicalRecord(new EnumMap<EyeDisease, String>(EyeDisease.class))
         .build());
     stackPane.getChildren().add(photoGrid);
     stackPane.getChildren().remove(inputGrid);
   }
-  
+
   private void showInputGrid() {
+    controller.finalizePatient();
     inputValues.clear();
     hFilePath = "";
     vFilePath = "";
-    stackPane.getChildren().add(inputGrid);
     stackPane.getChildren().remove(resultGrid);
+    inputGrid.getChildren().clear();
+    photoGrid.getChildren().clear();
+    resultGrid.getChildren().clear();
+    this.setupInputGrid();
+    this.setupPhotoGrid();
+    stackPane.getChildren().add(inputGrid);
   }
-  
+
   private void returnToInputGrid() {
     stackPane.getChildren().remove(photoGrid);
     stackPane.getChildren().add(inputGrid);
