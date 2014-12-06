@@ -4,15 +4,16 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Random;
 
 import lombok.extern.slf4j.Slf4j;
 
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfRect;
 import org.opencv.core.Rect;
+import org.opencv.core.Size;
 import org.opencv.highgui.Highgui;
 import org.opencv.objdetect.CascadeClassifier;
+import org.opencv.objdetect.Objdetect;
 
 import com.ucsd.globalties.dvs.core.tools.Pair;
 
@@ -52,22 +53,15 @@ public class Photo {
   private Rect findFaceRoi(Mat image) {
     CascadeClassifier faceDetector = new CascadeClassifier(Main.HAAR_FACE_PATH);
     MatOfRect faceDetections = new MatOfRect();
-    faceDetector.detectMultiScale(image, faceDetections);
+    faceDetector.detectMultiScale(image, faceDetections, 1.05, 2, Objdetect.CASCADE_FIND_BIGGEST_OBJECT | Objdetect.CASCADE_SCALE_IMAGE, new Size(30,30), new Size(image.width(),image.height()));
 
     log.info(String.format("Detected %s faces for img: %s", faceDetections.toArray().length, path));
     Rect detectedFace;
     if (faceDetections == null || faceDetections.toArray().length == 0) {
       // go straight into eye detection on current image if no face is found
       return null;
-    } else if (faceDetections.toArray().length > 1) {
-      log.error("More than 1 face detected... continuing with largest face.");
-      List<Rect> listOfFaces = faceDetections.toList();
-      listOfFaces.sort(new RectAreaCompare());
-      detectedFace = listOfFaces.get(listOfFaces.size()-1);
     }
-    else {
-      detectedFace = faceDetections.toArray()[0];
-    }
+    detectedFace = faceDetections.toArray()[0];
     Rect faceBox = new Rect(detectedFace.x, detectedFace.y, detectedFace.width, (detectedFace.height * 2) / 3);
     //Highgui.imwrite("face_"+ type + ".jpg", new Mat(image, faceBox));
     return faceBox;
