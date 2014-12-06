@@ -12,7 +12,8 @@ import com.ucsd.globalties.dvs.core.tools.Pair;
 
 @Slf4j
 public class PupilDetectionTest {
-  private static final List<Pair<String,String>> TEST_PAIRS = Arrays.asList(new Pair<String,String>("Andrei_1.jpg","Andrei_2.jpg"),
+  private static final List<Pair<String,String>> TEST_PAIRS = Arrays.asList(
+                                                                  new Pair<String,String>("Andrei_1.jpg","Andrei_2.jpg"),
                                                                   new Pair<String,String>("Sabit_1.jpg","Sabit_2.jpg"),
                                                                   new Pair<String,String>("Heather_1.jpg","Heather_2.jpg"),
                                                                   new Pair<String,String>("Rahul_1.jpg","Rahul_3.jpg"),
@@ -77,7 +78,7 @@ public class PupilDetectionTest {
         total += found;
       }
       catch (Exception ex) {
-        results[i] = -1;
+        results[i] = found;
         log.error(String.format("Exception raised for pair %s, %s",test.getLeft(),test.getRight(),ex.getStackTrace().toString()));
       }
     }

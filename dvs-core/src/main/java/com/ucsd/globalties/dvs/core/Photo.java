@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -59,16 +60,16 @@ public class Photo {
       // go straight into eye detection on current image if no face is found
       return null;
     } else if (faceDetections.toArray().length > 1) {
-      //TODO sort face images and return largest??
-      log.error("More than 1 face detected... returning null");
-      detectedFace = faceDetections.toArray()[1];
-      //return null;
+      log.error("More than 1 face detected... continuing with largest face.");
+      List<Rect> listOfFaces = faceDetections.toList();
+      listOfFaces.sort(new RectAreaCompare());
+      detectedFace = listOfFaces.get(listOfFaces.size()-1);
     }
     else {
       detectedFace = faceDetections.toArray()[0];
     }
     Rect faceBox = new Rect(detectedFace.x, detectedFace.y, detectedFace.width, (detectedFace.height * 2) / 3);
-    //Highgui.imwrite("face_out_" + type + ".jpg", new Mat(image, faceBox));
+    //Highgui.imwrite("face_"+ type + ".jpg", new Mat(image, faceBox));
     return faceBox;
   }
 
@@ -86,7 +87,7 @@ public class Photo {
     log.info(String.format("Detected %s eyes for img: %s", detectedEyes.size(), path));
     List<Rect> eyes = new ArrayList<>(2);
     if (detectedEyes.size() > 2) { // found an extra eye or two
-      detectedEyes.sort(new EyeAreaCompare());
+      detectedEyes.sort(new RectAreaCompare());
       // we can safely get the last 2 biggest ones, because after the crop the eyes take up the most space
       eyes.add(detectedEyes.get(detectedEyes.size() - 1));
       eyes.add(detectedEyes.get(detectedEyes.size() - 2));
@@ -96,15 +97,15 @@ public class Photo {
     }
     eyes.sort(new EyeXCompare()); // simple sort to know which eye is left and which is right
     Mat leftEyeMat = new Mat(faceImage, eyes.get(0));
-    Highgui.imwrite("left_eye_" + type + ".jpg", leftEyeMat);
     Mat rightEyeMat = new Mat(faceImage, eyes.get(1));
-    log.info("created left eye mat: " + leftEyeMat);
-    Highgui.imwrite("right_eye_" + type + ".jpg", rightEyeMat);
+    //Highgui.imwrite("left_eye_" + type + ".jpg", leftEyeMat);
+    //Highgui.imwrite("right_eye_" + type + ".jpg", rightEyeMat);    
+    log.info("created left eye mat: " + leftEyeMat);    
     log.info("created right eye mat: " + rightEyeMat);
     return new Pair<Eye, Eye>(new Eye(leftEyeMat), new Eye(rightEyeMat));
   }
 
-  private static class EyeAreaCompare implements Comparator<Rect> {
+  private static class RectAreaCompare implements Comparator<Rect> {
     public int compare(Rect r1, Rect r2) {
       int r1Area = r1.height * r1.width;
       int r2Area = r2.height * r2.width;
