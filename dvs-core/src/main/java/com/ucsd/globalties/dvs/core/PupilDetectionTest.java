@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +31,8 @@ public class PupilDetectionTest {
   private static AtomicInteger counter = new AtomicInteger(0);
   private static int[] results = new int[TEST_PAIRS.size()];
   private static long timeTaken = 0;
+  
+  private static final ExecutorService threadpool = Executors.newFixedThreadPool(TEST_PAIRS.size() / 2);
 
   public static void main(String[] args) {
     Main.loadLibraryComponents();
@@ -58,7 +62,7 @@ public class PupilDetectionTest {
     long s = System.currentTimeMillis();
     for (int i = 0; i < TEST_PAIRS.size(); i++) {
       final int index = i;
-      Thread t = new Thread(new Runnable() {
+      Runnable r = new Runnable() {
         public void run() {
           Pair<String, String> test = TEST_PAIRS.get(index);
           int found = 0;
@@ -89,8 +93,8 @@ public class PupilDetectionTest {
             printResults();
           }
         }
-      });
-      t.start();
+      };
+      threadpool.execute(r);
     }
   }
 
