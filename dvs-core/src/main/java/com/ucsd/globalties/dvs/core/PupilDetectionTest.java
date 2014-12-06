@@ -111,5 +111,6 @@ public class PupilDetectionTest {
     if (total != TEST_PAIRS.size() * 4) {
       log.error("Expected: " + (TEST_PAIRS.size() * 4) + " images, found: " + total);
     }
+    System.exit(0);
   }
 }
