@@ -33,7 +33,7 @@
                   <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
                </padding>
             </GridPane>
-            <GridPane id="photoGrid" fx:id="photoGrid" alignment="CENTER" hgap="10.0" vgap="10.0">
+            <GridPane fx:id="photoGrid" alignment="CENTER" hgap="10.0" vgap="10.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -44,6 +44,18 @@
                <padding>
                   <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
                </padding>
+            </GridPane>
+            <GridPane fx:id="detectGrid" alignment="CENTER" hgap="10.0" layoutX="10.0" layoutY="10.0" vgap="10.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <padding>
+                  <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+               </padding>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+               </rowConstraints>
             </GridPane>
             <GridPane fx:id="resultGrid" alignment="CENTER" hgap="10.0" vgap="10.0">
               <columnConstraints>

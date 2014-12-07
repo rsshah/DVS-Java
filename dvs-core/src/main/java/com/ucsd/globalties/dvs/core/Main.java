@@ -17,10 +17,12 @@ public class Main extends Application {
   private static final String HAAR_FACE = "/haarcascade_frontalface_alt.xml";
   private static final String HAAR_EYE = "/haarcascade_eye.xml";
   private static Controller controller;
+  public static final String OUTPUT_FILE = "output/";
   public static String HAAR_FACE_PATH;
   public static String HAAR_EYE_PATH;
   
   public static void main(String[] args) {
+    (new File("output")).mkdir();
     controller = new Controller();
     loadLibraryComponents();
     launch(args);
@@ -42,6 +44,7 @@ public class Main extends Application {
 
   @Override
   public void start(Stage stage) throws Exception {
+    stage.setTitle("Digital Vision Screening");
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/main.fxml"));
     VBox vbox;
     try {

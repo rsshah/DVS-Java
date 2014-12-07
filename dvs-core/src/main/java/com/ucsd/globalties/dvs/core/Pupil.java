@@ -29,4 +29,8 @@ public class Pupil {
   public double getCrescent() {
     return 0;
   }
+
+  public Mat getMat() {
+    return pupil;
+  }
 }
