@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import org.opencv.core.Mat;
@@ -25,6 +27,8 @@ public class Photo {
 
   private PhotoType type;
   private String path;
+  @Getter
+  private double pupillaryDistance;
 
   private Pair<Eye, Eye> eyes;
 
@@ -96,7 +100,16 @@ public class Photo {
     //Highgui.imwrite("right_eye_" + type + ".jpg", rightEyeMat);    
     log.info("created left eye mat: " + leftEyeMat);    
     log.info("created right eye mat: " + rightEyeMat);
+    java.awt.Point leftCenter = new java.awt.Point(leftEyeMat.width() / 2, leftEyeMat.height() / 2);
+    java.awt.Point rightCenter = new java.awt.Point(rightEyeMat.width() / 2, rightEyeMat.height() / 2);
+    // initialize a rough estimate of pupillary distance here, when we detect the eyes.
+    // We can adjust it to an accurate value when pupils are detected.
+    pupillaryDistance = leftCenter.distance(rightCenter);
     return new Pair<Eye, Eye>(new Eye(leftEyeMat), new Eye(rightEyeMat));
+  }
+  
+  public void adjustPupillaryDistance(double val) {
+    pupillaryDistance += val;
   }
 
   private static class RectAreaCompare implements Comparator<Rect> {
@@ -112,4 +125,5 @@ public class Photo {
       return r1.x < r2.x ? -1 : r1.x == r2.x ? 0 : 1;
     }
   }
+  
 }

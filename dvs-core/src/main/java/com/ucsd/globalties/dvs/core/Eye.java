@@ -72,6 +72,7 @@ public class Eye {
     //pick the most center circle as Pupil. HoughCircles returns circles in decreasing order from center
     //if you suspect this is not the case, just sort the Mat using pythagorean theorem to get the distance from center of circle to center of eye image.
     double[] finalPupil = circles.get(0, 0);
+    double area = Math.PI * Math.pow(finalPupil[2], 2);
     
     /*Mat fsrc = new Mat();
     mat.copyTo(fsrc);    
@@ -81,7 +82,6 @@ public class Eye {
     log.info("Pupil found: x: " + finalPupil[0] + " y: " + finalPupil[1] + " r: " + finalPupil[2]);
     //Crop eye mat and create pupil mat
     Mat pupilMat = new Mat(src, new Rect(new Point(finalPupil[0]-finalPupil[2],finalPupil[1]-finalPupil[2]), new Point(finalPupil[0]+finalPupil[2],finalPupil[1]+finalPupil[2])));
-    Highgui.imwrite("pupil"+code+".jpg", pupilMat);
-    return new Pupil(pupilMat);
+    return new Pupil(pupilMat, area);
   }
 }

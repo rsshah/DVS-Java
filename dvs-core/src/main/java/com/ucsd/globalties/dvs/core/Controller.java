@@ -53,6 +53,7 @@ public class Controller {
       detected.put("left_eye_horizontal", Main.OUTPUT_FILE + "left_eye_horizontal.jpg");
     }
     if (patient.getPhotos().get(0).getLeftEye().getPupil() != null) {
+      patient.getPhotos().get(0).getLeftEye().getPupil().getWhiteDot();
       Highgui.imwrite(Main.OUTPUT_FILE + "left_eye_pupil_horizontal.jpg",patient.getPhotos().get(0).getLeftEye().getPupil().getMat());
       detected.put("left_eye_pupil_horizontal", Main.OUTPUT_FILE + "left_eye_pupil_horizontal.jpg");
     }
@@ -61,6 +62,7 @@ public class Controller {
       detected.put("right_eye_horizontal", Main.OUTPUT_FILE + "right_eye_horizontal.jpg");
     }
     if (patient.getPhotos().get(0).getRightEye().getPupil() != null) {
+//      patient.getPhotos().get(0).getRightEye().getPupil().getWhiteDot();
       Highgui.imwrite(Main.OUTPUT_FILE + "right_eye_pupil_horizontal.jpg",patient.getPhotos().get(0).getRightEye().getPupil().getMat());
       detected.put("right_eye_pupil_horizontal", Main.OUTPUT_FILE + "right_eye_pupil_horizontal.jpg");
     }

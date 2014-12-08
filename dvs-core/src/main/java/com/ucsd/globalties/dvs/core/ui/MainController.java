@@ -159,8 +159,8 @@ public class MainController implements Initializable {
           @Override
           public void handle(final ActionEvent e) {
             File file = fileChooser.showOpenDialog(root.getScene().getWindow());
-            fileChooser.setInitialDirectory(file.getParentFile());
             if (file!=null) {
+              fileChooser.setInitialDirectory(file.getParentFile());
               hFilePath = file.getAbsolutePath();
               hImageView.setImage(new Image("file:///"+hFilePath));
             }
@@ -172,8 +172,8 @@ public class MainController implements Initializable {
           @Override
           public void handle(final ActionEvent e) {
             File file = fileChooser.showOpenDialog(root.getScene().getWindow());
-            fileChooser.setInitialDirectory(file.getParentFile());
             if (file!=null) {
+              fileChooser.setInitialDirectory(file.getParentFile());
               vFilePath = file.getAbsolutePath();
               vImageView.setImage(new Image("file:///"+vFilePath));
             }
