@@ -137,16 +137,22 @@ public class MainController implements Initializable {
 
     final ImageView hImageView = new ImageView();
     final ImageView vImageView = new ImageView();
+    HBox vBox = new HBox(10);
+    HBox hBox = new HBox(10);
+    vBox.setAlignment(Pos.CENTER);
+    hBox.setAlignment(Pos.CENTER);
 
     hImageView.setFitWidth(150);
     hImageView.setPreserveRatio(true);
     hImageView.setSmooth(true);
     hImageView.setCache(true);
+    hBox.getChildren().add(hImageView);
 
     vImageView.setFitWidth(150);
     vImageView.setPreserveRatio(true);
     vImageView.setSmooth(true);
     vImageView.setCache(true);
+    vBox.getChildren().add(vImageView);
 
     hOpenBtn.setOnAction(
         new EventHandler<ActionEvent>() {
@@ -203,8 +209,8 @@ public class MainController implements Initializable {
 
     photoGrid.add(hbHOpenBtn, 0, 0);
     photoGrid.add(vbVOpenBtn, 1, 0);
-    photoGrid.add(hImageView, 0, 1);
-    photoGrid.add(vImageView, 1, 1);
+    photoGrid.add(hBox, 0, 1);
+    photoGrid.add(vBox, 1, 1);
     photoGrid.add(hbBackBtn, 0, 2);
     photoGrid.add(hbNextBtn, 1, 2);
   }
@@ -257,8 +263,6 @@ public class MainController implements Initializable {
     hbBackBtn.getChildren().add(backBtn);
     hbNextBtn.setAlignment(Pos.BOTTOM_LEFT);
     hbNextBtn.getChildren().add(nextBtn);  
-    detectGrid.add(hbBackBtn, 0, 0);
-    detectGrid.add(hbNextBtn, 1, 0);
     TilePane hTiles = new TilePane(Orientation.VERTICAL);
     hTiles.setPrefRows(2);
     if (detected.get("left_eye_horizontal") != null) {
@@ -297,7 +301,6 @@ public class MainController implements Initializable {
       iView.setCache(true);
       hTiles.getChildren().add(iView);
     }
-    detectGrid.add(hTiles, 0, 1);
     TilePane vTiles = new TilePane(Orientation.VERTICAL);
     vTiles.setPrefRows(2);
     if (detected.get("left_eye_vertical") != null) {
@@ -336,8 +339,13 @@ public class MainController implements Initializable {
       iView.setCache(true);
       vTiles.getChildren().add(iView);
     }
-    detectGrid.add(vTiles, 1, 1);
-    
+    vTiles.setAlignment(Pos.CENTER);
+    hTiles.setAlignment(Pos.CENTER);
+    detectGrid.add(hTiles, 0, 0);
+    detectGrid.add(vTiles, 1, 0);
+    //
+    detectGrid.add(hbBackBtn, 0, 1);
+    detectGrid.add(hbNextBtn, 1, 1);
   }
   
   /*
