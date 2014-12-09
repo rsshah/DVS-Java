@@ -37,7 +37,6 @@ public class PupilDetectionTest {
   }
 
   public static void clean() {
-    Main.loadLibraryComponents();
     for (Iterator<Pair<String, String>> it = TEST_PAIRS.iterator(); it.hasNext();) {
       Pair<String, String> picPair = it.next();
       File fst = new File(PupilDetectionTest.class.getResource("/pics/" + picPair.getLeft()).getFile());
