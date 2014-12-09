@@ -9,7 +9,6 @@ import org.opencv.core.Mat;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Size;
-import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
 
 @Slf4j
@@ -17,9 +16,13 @@ public class Eye {
   
   @Getter
   private Mat mat;
+  // the Photo from which this eye was derived
+  private Photo photo;
+  
   private Pupil pupil;
 
-  public Eye(Mat mat) {
+  public Eye(Photo photo, Mat mat) {
+    this.photo = photo;
     this.mat = mat;
   }
 
@@ -72,16 +75,21 @@ public class Eye {
     //pick the most center circle as Pupil. HoughCircles returns circles in decreasing order from center
     //if you suspect this is not the case, just sort the Mat using pythagorean theorem to get the distance from center of circle to center of eye image.
     double[] finalPupil = circles.get(0, 0);
-    double area = Math.PI * Math.pow(finalPupil[2], 2);
     
+    // Use the following code to debug where the detected pupil is in the image
     /*Mat fsrc = new Mat();
     mat.copyTo(fsrc);    
     Core.rectangle(fsrc, new Point(finalPupil[0],finalPupil[1]), new Point(finalPupil[0]+2*finalPupil[2],finalPupil[1]+2*finalPupil[2]), new Scalar(0,255,0),2);
-    Core.circle(fsrc, new Point(finalPupil[0], finalPupil[1]), (int) finalPupil[2], new Scalar(255,0,0),2);*/
+    Core.circle(fsrc, new Point(finalPupil[0], finalPupil[1]), (int) finalPupil[2], new Scalar(255,0,0),2);
+    Highgui.imwrite("detected-pupil.jpg", fsrc);*/
     
     log.info("Pupil found: x: " + finalPupil[0] + " y: " + finalPupil[1] + " r: " + finalPupil[2]);
     //Crop eye mat and create pupil mat
-    Mat pupilMat = new Mat(src, new Rect(new Point(finalPupil[0]-finalPupil[2],finalPupil[1]-finalPupil[2]), new Point(finalPupil[0]+finalPupil[2],finalPupil[1]+finalPupil[2])));
-    return new Pupil(pupilMat, area);
+    Point topLeft = new Point(finalPupil[0]-finalPupil[2],finalPupil[1]-finalPupil[2]);
+    Point bottomRight = new Point(finalPupil[0]+finalPupil[2],finalPupil[1]+finalPupil[2]);
+    Rect pupilArea = new Rect(topLeft, bottomRight);
+    Mat pupilMat = new Mat(src, pupilArea);
+    photo.appendPupilX(finalPupil[0]);
+    return new Pupil(this, pupilMat);
   }
 }

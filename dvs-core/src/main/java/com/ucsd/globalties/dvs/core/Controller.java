@@ -21,8 +21,8 @@ public class Controller {
   
   public void setPatientPhotos(String hFilePath, String vFilePath) {
     List<Photo> photos = new ArrayList<Photo>();
-    photos.add(new Photo(hFilePath, PhotoType.HORIZONTAL));
-    photos.add(new Photo(vFilePath, PhotoType.VERTICAL));
+    photos.add(new Photo(hFilePath, patient, PhotoType.HORIZONTAL));
+    photos.add(new Photo(vFilePath, patient, PhotoType.VERTICAL));
     patient.setPhotos(photos);
   }
   
@@ -62,7 +62,7 @@ public class Controller {
       detected.put("right_eye_horizontal", Main.OUTPUT_FILE + "right_eye_horizontal.jpg");
     }
     if (patient.getPhotos().get(0).getRightEye().getPupil() != null) {
-//      patient.getPhotos().get(0).getRightEye().getPupil().getWhiteDot();
+      patient.getPhotos().get(0).getRightEye().getPupil().getWhiteDot();
       Highgui.imwrite(Main.OUTPUT_FILE + "right_eye_pupil_horizontal.jpg",patient.getPhotos().get(0).getRightEye().getPupil().getMat());
       detected.put("right_eye_pupil_horizontal", Main.OUTPUT_FILE + "right_eye_pupil_horizontal.jpg");
     }
@@ -72,6 +72,7 @@ public class Controller {
       detected.put("left_eye_vertical", Main.OUTPUT_FILE + "left_eye_vertical.jpg");
     }
     if (patient.getPhotos().get(1).getLeftEye().getPupil() != null) {
+      patient.getPhotos().get(1).getLeftEye().getPupil().getWhiteDot();
       Highgui.imwrite(Main.OUTPUT_FILE + "left_eye_pupil_vertical.jpg",patient.getPhotos().get(1).getLeftEye().getPupil().getMat());
       detected.put("left_eye_pupil_vertical", Main.OUTPUT_FILE + "left_eye_pupil_vertical.jpg");
     }
@@ -80,6 +81,7 @@ public class Controller {
       detected.put("right_eye_vertical", Main.OUTPUT_FILE + "right_eye_vertical.jpg");
     }
     if (patient.getPhotos().get(1).getRightEye().getPupil() != null) {
+      patient.getPhotos().get(1).getRightEye().getPupil().getWhiteDot();
       Highgui.imwrite(Main.OUTPUT_FILE + "right_eye_pupil_vertical.jpg",patient.getPhotos().get(1).getRightEye().getPupil().getMat());
       detected.put("right_eye_pupil_vertical", Main.OUTPUT_FILE + "right_eye_pupil_vertical.jpg");
     }

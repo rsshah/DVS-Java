@@ -22,9 +22,6 @@ public class Patient {
   private Map<EyeDisease, String> medicalRecord;
   
   public void diagnose() {
-    // test for all conditions
-    // can parallelize this if necessary (probably not though)
-    // can also parallelize patients
     for (EyeDisease disease : EyeDisease.values()) {
       disease.getDetector().detect(this);
     }

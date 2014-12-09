@@ -1,9 +1,14 @@
 package com.ucsd.globalties.dvs.core;
 
-import java.awt.Point;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+@AllArgsConstructor
 public class WhiteDot {
-  private Point position;
+  @Getter
   private double distance;
-//  private Point 
+  @Getter
+  private double area;
+  @Getter
+  private double angle;
 }

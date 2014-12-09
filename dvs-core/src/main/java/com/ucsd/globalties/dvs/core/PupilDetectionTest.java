@@ -67,10 +67,11 @@ public class PupilDetectionTest {
           Pair<String, String> test = TEST_PAIRS.get(index);
           int found = 0;
           try {
+            Patient p = Patient.builder().name("Test" + index).build();
             File l = new File(PupilDetectionTest.class.getResource("/pics/" + test.getLeft()).getFile());
             File r = new File(PupilDetectionTest.class.getResource("/pics/" + test.getRight()).getFile());
-            Photo pL = new Photo(l.getAbsolutePath(), PhotoType.VERTICAL);
-            Photo pR = new Photo(r.getAbsolutePath(), PhotoType.HORIZONTAL);
+            Photo pL = new Photo(l.getAbsolutePath(), p, PhotoType.VERTICAL);
+            Photo pR = new Photo(r.getAbsolutePath(), p, PhotoType.HORIZONTAL);
             if (pL.getLeftEye().getPupil() != null) {
               found++;
             }

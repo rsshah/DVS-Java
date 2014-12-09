@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import org.opencv.core.Core;
@@ -16,14 +17,15 @@ import org.opencv.core.Core;
 public class Main extends Application {
   private static final String HAAR_FACE = "/haarcascade_frontalface_alt.xml";
   private static final String HAAR_EYE = "/haarcascade_eye.xml";
-  private static Controller controller;
   public static final String OUTPUT_FILE = "output/";
   public static String HAAR_FACE_PATH;
   public static String HAAR_EYE_PATH;
   
+  @Getter
+  private static Controller controller = new Controller();
+  
   public static void main(String[] args) {
     (new File("output")).mkdir();
-    controller = new Controller();
     loadLibraryComponents();
     launch(args);
   }
@@ -38,9 +40,9 @@ public class Main extends Application {
     HAAR_EYE_PATH = ep.getAbsolutePath();
   }
   
-  public static Controller getController() {
-    return controller;
-  }
+//  public static Controller getController() {
+//    return controller;
+//  }
 
   @Override
   public void start(Stage stage) throws Exception {
