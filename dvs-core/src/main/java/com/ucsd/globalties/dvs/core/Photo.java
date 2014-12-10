@@ -88,7 +88,11 @@ public class Photo {
     List<Rect> detectedEyes = eyeDetections.toList();
     log.info(String.format("Detected %s eyes for img: %s", detectedEyes.size(), path));
     List<Rect> eyes = new ArrayList<>(2);
-    if (detectedEyes.size() > 2) { // found an extra eye or two
+    if (detectedEyes.size() < 2) {
+      log.error("Minimum two eyes required.");
+      return null;
+    }
+    else if (detectedEyes.size() > 2) { // found an extra eye or two
       detectedEyes.sort(new RectAreaCompare());
       // we can safely get the last 2 biggest ones, because after the crop the eyes take up the most space
       eyes.add(detectedEyes.get(detectedEyes.size() - 1));

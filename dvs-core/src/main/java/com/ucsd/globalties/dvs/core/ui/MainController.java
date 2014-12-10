@@ -16,6 +16,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,6 +25,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import lombok.extern.slf4j.Slf4j;
 
@@ -226,10 +228,9 @@ public class MainController implements Initializable {
     int index = 0;
     for (Map.Entry<EyeDisease, String> entry : medicalRecord.entrySet()) {
       Label diseaseLabel = new Label(entry.getKey().toString());
-      Label commentLabel = new Label(entry.getValue());
-
+      Text commentText =  new Text(entry.getValue());
       resultGrid.add(diseaseLabel, 0, index);
-      resultGrid.add(commentLabel, 1, index);
+      resultGrid.add(commentText, 1, index);
       index++;
     }
     Button startOver = new Button("Start Over");
@@ -343,7 +344,6 @@ public class MainController implements Initializable {
     hTiles.setAlignment(Pos.CENTER);
     detectGrid.add(hTiles, 0, 0);
     detectGrid.add(vTiles, 1, 0);
-    //
     detectGrid.add(hbBackBtn, 0, 1);
     detectGrid.add(hbNextBtn, 1, 1);
   }
@@ -404,6 +404,7 @@ public class MainController implements Initializable {
     stackPane.getChildren().remove(resultGrid);
     inputGrid.getChildren().clear();
     photoGrid.getChildren().clear();
+    detectGrid.getChildren().clear();
     resultGrid.getChildren().clear();
     this.setupInputGrid();
     this.setupPhotoGrid();
