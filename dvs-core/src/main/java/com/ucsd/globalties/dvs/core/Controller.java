@@ -48,6 +48,9 @@ public class Controller {
   
   public Map<String, String> detectAll() {
     Map<String,String> detected = new HashMap<String,String>();
+    for (Photo photo : patient.getPhotos()) {
+      
+    }
     if (patient.getPhotos().get(0).getLeftEye() != null) {
       Highgui.imwrite(Main.OUTPUT_FILE + "left_eye_horizontal.jpg",patient.getPhotos().get(0).getLeftEye().getMat());
       detected.put("left_eye_horizontal", Main.OUTPUT_FILE + "left_eye_horizontal.jpg");

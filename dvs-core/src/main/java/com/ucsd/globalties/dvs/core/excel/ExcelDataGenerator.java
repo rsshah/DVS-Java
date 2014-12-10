@@ -13,10 +13,10 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.ucsd.globalties.dvs.core.Patient;
+import com.ucsd.globalties.dvs.core.ui.MainController;
 @Slf4j
 public class ExcelDataGenerator {
-  private static String[] patientFields = {"Name","Date of Birth","Gender","Ethnicity","Language","Room Number","School","Screening Comment"};
-
+  
   public static void exportPatientData(List<Patient> patientList) {
     if (patientList == null) {
       return;
@@ -28,7 +28,7 @@ public class ExcelDataGenerator {
       int rowNum = 0, cellNum = 0;
       Row fieldRow = s.createRow(rowNum++);
       
-      for(String field : patientFields) {
+      for(String field : MainController.sceneLabels) {
         Cell c = fieldRow.createCell(cellNum++);
         c.setCellValue(field);
       }
@@ -37,7 +37,7 @@ public class ExcelDataGenerator {
         Row r = s.createRow(rowNum++);
         cellNum = 0;
         Map<String,String> patientData = p.getPatientData();
-        for(String field : patientFields) {
+        for(String field : MainController.sceneLabels) {
           Cell c = r.createCell(cellNum++);
           c.setCellValue(patientData.get(field));
         }

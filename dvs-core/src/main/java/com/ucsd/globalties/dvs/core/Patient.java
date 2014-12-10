@@ -1,6 +1,7 @@
 package com.ucsd.globalties.dvs.core;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +23,24 @@ public class Patient {
   private Map<EyeDisease, String> medicalRecord;
   
   public void diagnose() {
+    for (Iterator<Photo> it = photos.iterator(); it.hasNext();) {
+      Photo p = it.next();
+      Eye left = p.getLeftEye();
+      Eye right = p.getRightEye();
+      if (left == null || right == null) {
+        it.remove();
+      } else if (left.getPupil() == null || right.getPupil() == null) {
+        it.remove();
+      } else if (left.getPupil().getWhiteDot() == null || right.getPupil().getWhiteDot() == null) {
+        it.remove();
+      }
+    }
+    if (photos.isEmpty()) {
+      log.warn("Skipping diagnosis for patient " + name + " because no adequate photos exist.");
+      return;
+    } else if (photos.size() < 2) {
+      log.warn("A photo was removed from " + name + " because not enough eyes/pupils/whitedots were found.");
+    }
     for (EyeDisease disease : EyeDisease.values()) {
       disease.getDetector().detect(this);
     }

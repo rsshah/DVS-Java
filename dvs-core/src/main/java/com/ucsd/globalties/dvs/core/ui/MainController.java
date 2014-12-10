@@ -37,7 +37,7 @@ import com.ucsd.globalties.dvs.core.Patient;
 
 @Slf4j
 public class MainController implements Initializable {
-  private static String[] sceneLabels = {"Name","Date of Birth","Gender","Ethnicity","Language","Room Number","School","Screening Comment"};
+  public static String[] sceneLabels = {"Name","Date of Birth","Gender","Ethnicity","Language","Room Number","School","Screening Comment"};
   private Map<String,TextField> inputValues = new HashMap<String,TextField>();
   private String hFilePath, vFilePath;
   private Controller controller;
