@@ -52,7 +52,7 @@ public class Pupil {
     Mat gray = new Mat();
     Imgproc.cvtColor(src, gray, Imgproc.COLOR_BGR2GRAY);
     Highgui.imwrite("gray-test.jpg", gray);
-    Double thresh = Imgproc.threshold(gray, gray, 230, 255, Imgproc.THRESH_BINARY);
+    Double thresh = Imgproc.threshold(gray, gray, 240, 255, Imgproc.THRESH_BINARY);
     Highgui.imwrite("thresh-test.jpg", gray);
     List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
     Imgproc.findContours(gray.clone(), contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
@@ -86,6 +86,7 @@ public class Pupil {
     }
     if (whiteDotPair == null) {
       log.error("[WhiteDot Detection] Unable to find suitable white dot");
+      return null;
     }
     MatOfPoint whiteDotContour = whiteDotPair.getLeft(); // assume white dot is the contour closest to the center of the image
 
@@ -99,7 +100,7 @@ public class Pupil {
     java.awt.Point whiteDotCenter = new java.awt.Point(rect.x + radius, rect.y + radius);
     double distance = pupilCenter.distance(whiteDotCenter);
     double xDist = whiteDotCenter.x - pupilCenter.x;
-    if (xDist >= distance) {
+    if (xDist > distance) {
       log.error("[WhiteDot Detection] unfulfilled invariant: adjacent edge of triangle is bigger than hypotenuse");
       return null;
     }

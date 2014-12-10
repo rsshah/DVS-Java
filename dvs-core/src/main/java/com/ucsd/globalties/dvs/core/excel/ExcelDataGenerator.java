@@ -1,6 +1,9 @@
 package com.ucsd.globalties.dvs.core.excel;
 
 import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +25,9 @@ public class ExcelDataGenerator {
       return;
     }
     try {
-      FileOutputStream out = new FileOutputStream("wb.xlsx");
+      SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/YYYY");
+      sdf.format(Calendar.getInstance().getTime());
+      FileOutputStream out = new FileOutputStream("DVS Date " +  sdf.toString() + ".xlsx");
       Workbook wb = new XSSFWorkbook();
       Sheet s = wb.createSheet("Patient Data");
       int rowNum = 0, cellNum = 0;

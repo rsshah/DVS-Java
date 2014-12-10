@@ -6,7 +6,7 @@ import com.ucsd.globalties.dvs.core.Photo;
 import com.ucsd.globalties.dvs.core.WhiteDot;
 
 public class StrabismusDetector implements DiseaseDetector {
-  private static final int DISTANCE_THRESHOLD = 10;
+  private static final double DISTANCE_THRESHOLD = 10;
   private static final double ANGLE_THRESHOLD = Math.PI / 2d;
   
   public void detect(Patient p) {
