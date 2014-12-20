@@ -40,7 +40,7 @@ import com.ucsd.globalties.dvs.core.Patient;
 /**
  * The main front-end component. It loads layouts from the FXML layouts in the resources folder.
  * TODO probably refactor this whole thing with a better design, because the front-end code kind of sucks...
- * @author Rahul
+ * @author Sabit
  *
  */
 @Slf4j
