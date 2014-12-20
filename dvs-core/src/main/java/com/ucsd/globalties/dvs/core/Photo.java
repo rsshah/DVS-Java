@@ -18,6 +18,13 @@ import org.opencv.objdetect.Objdetect;
 
 import com.ucsd.globalties.dvs.core.tools.Pair;
 
+/**
+ * Photo class represents a picture chosen by the user.
+ * Has methods to detect the face and eyes, and is used as an
+ * entry point to the computer vision analysis through OpenCV
+ * @author Rahul
+ *
+ */
 @Slf4j
 public class Photo {
   public enum PhotoType {
@@ -61,12 +68,17 @@ public class Photo {
   private Rect findFaceRoi(Mat image) {
     CascadeClassifier faceDetector = new CascadeClassifier(Main.HAAR_FACE_PATH);
     MatOfRect faceDetections = new MatOfRect();
-    faceDetector.detectMultiScale(image, faceDetections, 1.05, 2, Objdetect.CASCADE_FIND_BIGGEST_OBJECT | Objdetect.CASCADE_SCALE_IMAGE, new Size(30,30), new Size(image.width(),image.height()));
+    int flag = Objdetect.CASCADE_FIND_BIGGEST_OBJECT | Objdetect.CASCADE_SCALE_IMAGE;
+    // find faces and put the results inside of the faceDetections object.
+    faceDetector.detectMultiScale(image, faceDetections, 1.05, 2, flag, new Size(30,30), new Size(image.width(),image.height()));
 
     log.info(String.format("Detected %s faces for img: %s", faceDetections.toArray().length, path));
     Rect detectedFace;
     if (faceDetections == null || faceDetections.toArray().length == 0) {
       // go straight into eye detection on current image if no face is found
+      // this will unfortunately take a longer time because the entire image has to be scanned for eyes, 
+      // but some photos will have faces cut off or non-detectable faces and this is a fail-safe method if no face
+      // is found.
       return null;
     }
     detectedFace = faceDetections.toArray()[0];
@@ -97,7 +109,8 @@ public class Photo {
       // we can safely get the last 2 biggest ones, because after the crop the eyes take up the most space
       eyes.add(detectedEyes.get(detectedEyes.size() - 1));
       eyes.add(detectedEyes.get(detectedEyes.size() - 2));
-      // TODO maybe add some more criteria here and have criterion weights for more accurate behavior
+      // TODO maybe add some more criteria here and have criterion weights for more accurate behavior, but 
+      // only necessary if future pictures have unsatisfactory eye detection rates.
     } else {
       eyes.addAll(eyeDetections.toList());
     }
@@ -109,6 +122,11 @@ public class Photo {
     return new Pair<Eye, Eye>(new Eye(this, leftEyeMat), new Eye(this, rightEyeMat));
   }
 
+  /**
+   * Compare the area of the rectangles, putting the smaller rectangle before the larger.
+   * @author Rahul
+   *
+   */
   private static class RectAreaCompare implements Comparator<Rect> {
     public int compare(Rect r1, Rect r2) {
       int r1Area = r1.height * r1.width;
@@ -117,6 +135,11 @@ public class Photo {
     }
   }
 
+  /**
+   * Compare the 'x' coordinates of the eye, putting the smaller 'x' values before the larger.
+   * @author Rahul
+   *
+   */
   private static class EyeXCompare implements Comparator<Rect> {
     public int compare(Rect r1, Rect r2) {
       return r1.x < r2.x ? -1 : r1.x == r2.x ? 0 : 1;
@@ -127,6 +150,9 @@ public class Photo {
    * Helper function that is called by the Eye once it has detected the Pupil.
    * After two pupils have made this call, the pupillaryDistance will hold the
    * correctly computed value.
+   * TODO maybe improve how this is done so that subsequent calls, though unncessary and 
+   * impossible in a normal use case, do not break the result.
+   * Also maybe test this.
    * @param pupilX the x coordinate of the pupil
    */
   public void appendPupilX(double pupilX) {

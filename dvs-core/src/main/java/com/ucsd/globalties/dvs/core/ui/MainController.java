@@ -37,6 +37,12 @@ import com.ucsd.globalties.dvs.core.EyeDisease;
 import com.ucsd.globalties.dvs.core.Main;
 import com.ucsd.globalties.dvs.core.Patient;
 
+/**
+ * The main front-end component. It loads layouts from the FXML layouts in the resources folder.
+ * TODO probably refactor this whole thing with a better design, because the front-end code kind of sucks...
+ * @author Rahul
+ *
+ */
 @Slf4j
 public class MainController implements Initializable {
   public static String[] sceneLabels = {"Name","Date of Birth","Gender","Ethnicity","Language","Room Number","School","Screening Comment"};

@@ -9,6 +9,13 @@ import com.ucsd.globalties.dvs.core.detect.CataractsDetector;
 import com.ucsd.globalties.dvs.core.detect.DiseaseDetector;
 import com.ucsd.globalties.dvs.core.detect.StrabismusDetector;
 
+/**
+ * An enum to represent all of the diseases that this program detects.
+ * Register a DiseaseDetector that implements an algorithm to detect
+ * the disease in the construct of the EyeDisease enum object.
+ * @author Rahul
+ *
+ */
 @AllArgsConstructor
 public enum EyeDisease {
   ASTIGMATISM(new AstigmatismDetector()),

@@ -12,7 +12,14 @@ import lombok.Setter;
 import com.ucsd.globalties.dvs.core.Photo.PhotoType;
 import com.ucsd.globalties.dvs.core.excel.ExcelDataGenerator;
 
-
+/**
+ * A cannibalized MVC artifact that hides access of the logic (e.g. the Patient class)
+ * from the front-end. Maybe you can improve this (specifically the front-end exclusive 
+ * pieces) but for now you may add to this if necessary, because this class should not have 
+ * much more functionality unless the front-end requires it.
+ * @author Rahul
+ *
+ */
 public class Controller {
 	
   @Setter
@@ -46,6 +53,11 @@ public class Controller {
     ExcelDataGenerator.exportPatientData(sessionPatients);
   }
   
+  /**
+   * TODO improve this to make it more elegant and more forward-compatible. 
+   * (front end code is pretty bad...)
+   * @return a Map representing the successfully detected components and their output paths
+   */
   public Map<String, String> detectAll() {
     Map<String,String> detected = new HashMap<String,String>();
     for (Photo photo : patient.getPhotos()) {
