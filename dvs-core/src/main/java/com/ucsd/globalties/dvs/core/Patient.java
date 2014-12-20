@@ -12,7 +12,14 @@ import lombok.Setter;
 import lombok.experimental.Builder;
 import lombok.extern.slf4j.Slf4j;
 
-@Builder
+/**
+ * The Patient class contains all information about the patient.
+ * All information entered in the first screen, along with the photos (and therefore 
+ * the eyes, pupils, and more) are references in this class.
+ * @author Rahul
+ *
+ */
+@Builder // Automatically generate a builder class for the patient that supports optional parameters.
 @Slf4j
 public class Patient {
   private String name, birth, gender, ethnicity, language, roomNumber, school, 
@@ -24,6 +31,12 @@ public class Patient {
   @Getter
   private Map<EyeDisease, String> medicalRecord;
   
+  /**
+   * Populate the patient's medical record with results from the diagnoses of all disease detectors.
+   * BY THE WAY, this is lame. Back end code shouldn't really have null checks here, because that
+   * should be prevented by the front end. The back end should never advance to this point with null 
+   * references to any necessary components. PLZ REFACTOR (front end code is pretty bad).
+   */
   public void diagnose() {
     for (Iterator<Photo> it = photos.iterator(); it.hasNext();) {
       Photo p = it.next();
@@ -51,6 +64,10 @@ public class Patient {
     log.info("Done detecting. Medical record: " + medicalRecord.toString());
   }
   
+  /**
+   * This is kind of lame, plz refactor (front end code is pretty bad).
+   * @return
+   */
   public Map<String,String> getPatientData() {
     Map<String,String> data = new HashMap<String,String>();
     String[] labels = MainController.sceneLabels;

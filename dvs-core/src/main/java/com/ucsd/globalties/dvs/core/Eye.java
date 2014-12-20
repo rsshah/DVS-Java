@@ -14,6 +14,12 @@ import org.opencv.core.Size;
 import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
 
+/**
+ * The Eye class represents a portion of the picture containing the eye.
+ * 
+ * @author Rahul
+ *
+ */
 @Slf4j
 public class Eye {
   
@@ -24,11 +30,21 @@ public class Eye {
   
   private Pupil pupil;
 
+  /**
+   * Create a new Eye object with the "parent" photo and the Mat that
+   * describes its pixels.
+   * @param photo
+   * @param mat
+   */
   public Eye(Photo photo, Mat mat) {
     this.photo = photo;
     this.mat = mat;
   }
 
+  /**
+   * Lazy load/cache the pupil detection.
+   * @return the pupil found in the eye Mat.
+   */
   public Pupil getPupil() {
     if (pupil == null) {
       pupil = findPupil();

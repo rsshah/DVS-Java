@@ -13,6 +13,17 @@ import lombok.extern.slf4j.Slf4j;
 import com.ucsd.globalties.dvs.core.Photo.PhotoType;
 import com.ucsd.globalties.dvs.core.tools.Pair;
 
+/**
+ * A very simplistic test class.
+ * This should be in the test package, I might move it later.
+ * It is not in the test package because there were issues linking
+ * Maven build procedures to a native library (because OpenCV is necessary 
+ * for this test to run), but with the addition of the runtime native library 
+ * loading function, this can be moved safely.
+ * I may do it in the future.
+ * @author Rahul
+ *
+ */
 @Slf4j
 public class PupilDetectionTest {
   private static final List<Pair<String, String>> TEST_PAIRS = Arrays.asList(

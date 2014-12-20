@@ -19,6 +19,12 @@ import org.opencv.imgproc.Imgproc;
 
 import com.ucsd.globalties.dvs.core.tools.Pair;
 
+/**
+ * Pupil class represents a detected pupil.
+ * It has a white dot and a crescent, which are used for disease detection algorithms.
+ * @author Rahul
+ *
+ */
 @Slf4j
 public class Pupil {
   
@@ -52,6 +58,7 @@ public class Pupil {
     Mat gray = new Mat();
     Imgproc.cvtColor(src, gray, Imgproc.COLOR_BGR2GRAY);
     Highgui.imwrite("gray-test.jpg", gray);
+    // threshold the image for white values
     Double thresh = Imgproc.threshold(gray, gray, 240, 255, Imgproc.THRESH_BINARY);
     Highgui.imwrite("thresh-test.jpg", gray);
     List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
@@ -63,6 +70,8 @@ public class Pupil {
     }
     java.awt.Point pupilCenter = new java.awt.Point(mat.width() / 2, mat.height() / 2);
     List<Pair<MatOfPoint, Double>> contourDistances = new ArrayList<>(contours.size());
+    // Populate a List of Pairs, where pair.getLeft() is the contour and pair.getRight() is the contour's
+    // distance from the center of the pupil
     for (int i = 0; i < contours.size(); i++) {
       Rect rect = Imgproc.boundingRect(contours.get(i));
       Core.circle(src, new Point(rect.x + rect.width / 2, rect.y + rect.width / 2), rect.width / 2, new Scalar(255, 0, 0), 1);
@@ -70,9 +79,11 @@ public class Pupil {
       java.awt.Point center = new java.awt.Point(rect.x + radius, rect.y + radius);
       contourDistances.add(new Pair<>(contours.get(i), pupilCenter.distanceSq(center)));
     }
+    // sort the contours based on the distance from the center of the pupil (ascending)
     contourDistances.sort(contourCompare);
     Pair<MatOfPoint, Double> whiteDotPair = null;
     
+    // Find the closest contour that matches certain criteria (currently checks for size)
     for (Pair<MatOfPoint, Double> pair : contourDistances) {
       double area = Imgproc.contourArea(pair.getLeft());
       log.info("whiteDot distance: " + pair.getRight() + ", area: " + area);

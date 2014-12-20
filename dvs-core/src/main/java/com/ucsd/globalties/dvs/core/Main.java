@@ -15,22 +15,36 @@ import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+/**
+ * The entry point of the program.
+ * Loads OpenCV library, resources, and launches the JavaFX UI.
+ * @author Rahul
+ *
+ */
 public class Main extends Application {
+  // OpenCV constants for face/eye detection
   private static final String HAAR_FACE = "/haarcascade_frontalface_alt.xml";
   private static final String HAAR_EYE = "/haarcascade_eye.xml";
+  
+//The paths of the face/eye detection resource fiels
+ public static String HAAR_FACE_PATH;
+ public static String HAAR_EYE_PATH;
+  
   private static int BUFFER_SIZE = Short.MAX_VALUE;
   private static Controller controller;
   public static final String OUTPUT_FILE = "output/";
-  public static String HAAR_FACE_PATH;
-  public static String HAAR_EYE_PATH;
+  
   
   public static void main(String[] args) {
-    (new File("output")).mkdir();
+    (new File("output")).mkdir(); // create temporary output folder
     controller = new Controller();
     loadLibraryComponents();
     launch(args);
   }
   
+  /**
+   * Load the OpenCV resources used for face and eye detection.
+   */
   public static void loadLibraryComponents() {
     // load OpenCV constants
     //System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
@@ -42,6 +56,10 @@ public class Main extends Application {
     HAAR_EYE_PATH = ep.getAbsolutePath();
   }
   
+  /**
+   * Load the OpenCV native library appropriate for this operating system.
+   * The library file is stored in the running directory.
+   */
   private static void loadOpencvLibrary() {
     try {
       InputStream in = null;
@@ -86,11 +104,14 @@ public class Main extends Application {
       throw new RuntimeException("Failed to load opencv native library", e);
     }
   }
-  
+
   public static Controller getController() {
     return controller;
   }
 
+  /**
+   * Launch the JavaFX UI
+   */
   @Override
   public void start(Stage stage) throws Exception {
     stage.setTitle("Digital Vision Screening");
