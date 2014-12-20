@@ -1,4 +1,6 @@
 # Created by https://www.gitignore.io
+### MAC OSX ###
+.DS_STORE
 
 ### Eclipse ###
 *.pydevproject
@@ -13,6 +15,7 @@ tmp/
 local.properties
 .settings/
 .loadpath
+.classpath
 
 # External tool builders
 .externalToolBuilders/
@@ -31,7 +34,6 @@ local.properties
 
 # TeXlipse plugin
 .texlipse
-
 
 ### Java ###
 *.class
