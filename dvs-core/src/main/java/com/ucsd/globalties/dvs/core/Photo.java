@@ -150,7 +150,7 @@ public class Photo {
    * Helper function that is called by the Eye once it has detected the Pupil.
    * After two pupils have made this call, the pupillaryDistance will hold the
    * correctly computed value.
-   * TODO maybe improve how this is done so that subsequent calls, though unncessary and 
+   * TODO maybe improve how this is done so that subsequent calls, though unnecessary and 
    * impossible in a normal use case, do not break the result.
    * Also maybe test this.
    * @param pupilX the x coordinate of the pupil

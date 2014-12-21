@@ -55,7 +55,6 @@ public class Controller {
   
   /**
    * TODO improve this to make it more elegant and more forward-compatible. 
-   * (front end code is pretty bad...)
    * @return a Map representing the successfully detected components and their output paths
    */
   public Map<String, String> detectAll() {

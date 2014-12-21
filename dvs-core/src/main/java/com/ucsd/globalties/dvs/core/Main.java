@@ -28,16 +28,17 @@ public class Main extends Application {
   private static final String HAAR_FACE = "/haarcascade_frontalface_alt.xml";
   private static final String HAAR_EYE = "/haarcascade_eye.xml";
   
-  //
-  public static String[] sceneLabels = {"Name","Date of Birth","Gender","Ethnicity","Language","Room Number","School","Screening Comment"};
-  public static String inputScreenID = "inputGrid";
-  public static String inputScreenFile = "/views/input_grid.fxml";
-  public static String photoGridID = "photoGrid";
-  public static String photoGridFile = "/views/photo_grid.fxml";
-  public static String detectGridID = "detectGrid";
-  public static String detectGridFile = "/views/detect_grid.fxml";
-  public static String resultGridID = "resultGrid";
-  public static String resultGridFile = "/views/result_grid.fxml";
+  //Mostly front end constants.
+  //TODO move to constants class or something
+  public static final String[] sceneLabels = {"Name","Date of Birth","Gender","Ethnicity","Language","Room Number","School","Screening Comment"};
+  public static final String inputScreenID = "inputGrid";
+  public static final String inputScreenFile = "/views/input_grid.fxml";
+  public static final String photoGridID = "photoGrid";
+  public static final String photoGridFile = "/views/photo_grid.fxml";
+  public static final String detectGridID = "detectGrid";
+  public static final String detectGridFile = "/views/detect_grid.fxml";
+  public static final String resultGridID = "resultGrid";
+  public static final String resultGridFile = "/views/result_grid.fxml";
   
   //The paths of the face/eye detection resource fields
   public static String HAAR_FACE_PATH;

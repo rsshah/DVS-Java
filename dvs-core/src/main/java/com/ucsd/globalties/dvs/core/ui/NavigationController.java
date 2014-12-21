@@ -10,6 +10,16 @@ import javafx.scene.layout.StackPane;
 import lombok.extern.slf4j.Slf4j;
 
 import com.ucsd.globalties.dvs.core.tools.Pair;
+
+/**
+ * An extension of the stack pane to allow pushing different screens
+ * to the top and keeping track of all screens
+ * 
+ * Modified from:
+ * https://github.com/acaicedo/JFX-MultiScreen/blob/master/ScreensFramework/src/screensframework/ScreensController.java
+ * @author Sabit
+ *
+ */
 @Slf4j
 public class NavigationController extends StackPane {
   //Holds the screens to be displayed
@@ -21,19 +31,31 @@ public class NavigationController extends StackPane {
     this.rootViewController = rootViewController;
   }
 
-  //Add the screen to the collection
+  /**
+   * Add screen with specified name and pair
+   * @param name Name to reference screen by
+   * @param screen The JavaFX node and Controller for screen
+   */
   public void addScreen(String name, Pair<Node,ControlledScreen> screen) {
     screens.put(name, screen);
   }
 
-  //Returns the Node with the appropriate name
+  /**
+   * Gets the node that represents the screen
+   * @param name screen to get
+   * @return Node corresponding to the screen name
+   */
   public Node getScreen(String name) {
     return screens.get(name).getLeft();
   }
   
-
-  //Loads the fxml file, add the screen to the screens collection and
-  //finally injects the screenPane to the controller.
+  /**
+   * Loads the fxml file and adds to the screen to the screens collection,
+   * and injects the screen pane into the controller
+   * @param name Name of screen
+   * @param resource Resource of screen
+   * @return success
+   */
   public boolean loadScreen(String name, String resource) {
     try {
       FXMLLoader myLoader = new FXMLLoader(getClass().getResource(resource));
@@ -51,10 +73,11 @@ public class NavigationController extends StackPane {
     }
   }
 
-  //This method tries to displayed the screen with a predefined name.
-  //First it makes sure the screen has been already loaded.  Then if there is more than
-  //one screen the new screen is been added second, and then the current screen is removed.
-  // If there isn't any screen being displayed, the new screen is just added to the root.
+  /**
+   * Adds the specified screen as the current top of the stack pane
+   * @param name screen to add
+   * @return success
+   */
   public boolean setScreen(String name) {       
     if (screens.get(name) != null) {   //screen loaded
       Pair<Node, ControlledScreen> screenPair = screens.get(name);
@@ -77,7 +100,11 @@ public class NavigationController extends StackPane {
     }
   }
 
-  //This method will remove the screen with the given name from the collection of screens
+  /**
+   * Stop keeping track of the specified screen
+   * @param name Screen to stop tracking
+   * @return success
+   */
   public boolean unloadScreen(String name) {
     if (screens.remove(name) == null) {
       log.warn("Screen does not exist");
@@ -88,6 +115,9 @@ public class NavigationController extends StackPane {
     }
   }
 
+  /**
+   * Resets all screens to default configurations.
+   */
   public void resetAll() {
     for (Map.Entry<String, Pair<Node,ControlledScreen>> entry : screens.entrySet()) {
       entry.getValue().getRight().resetState();

@@ -16,6 +16,14 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.ucsd.globalties.dvs.core.Main;
 import com.ucsd.globalties.dvs.core.Patient;
+
+/**
+ * Basic excel export class that writes pateint information into an excel file
+ * TODO make excel file prettier with formatting and colors
+ * TODO add disease detection results to excel file
+ * @author Sabit
+ *
+ */
 @Slf4j
 public class ExcelDataGenerator {
   
@@ -25,6 +33,7 @@ public class ExcelDataGenerator {
       return;
     }
     try {
+      //Slashes and colons in file name will break writing to output
       SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-YYYY hm");
       FileOutputStream out = new FileOutputStream(Main.OUTPUT_FILE + "DVS Data " +  sdf.format(Calendar.getInstance().getTime()) + ".xlsx");
       Workbook wb = new XSSFWorkbook();

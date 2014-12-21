@@ -18,7 +18,10 @@ import com.ucsd.globalties.dvs.core.Main;
 
 /**
  * The main front-end component. It loads layouts from the FXML layouts in the resources folder.
- * TODO probably refactor this whole thing with a better design, because the front-end code kind of sucks...
+ * TODO continue improving the design
+ * Some resources:
+ * https://blogs.oracle.com/acaicedo/entry/managing_multiple_screens_in_javafx1
+ * http://code.makery.ch/java/javafx-8-tutorial-intro/
  * @author Sabit
  *
  */
@@ -42,7 +45,7 @@ public class RootViewController implements Initializable {
     assert root != null : "fx:id=\"root\" was not injected: check your FXML file 'main.fxml'.";    
     assert exportItem != null : "fx:id=\"exportItem\" was not injected: check your FXML file 'main.fxml'.";
 
-    // initialize logic here: all @FXML variables will have been injected    
+    //initialize the navigation controller with different screens
     NavigationController mainContainer = new NavigationController(this);
     mainContainer.loadScreen(Main.inputScreenID, Main.inputScreenFile);
     mainContainer.loadScreen(Main.photoGridID, Main.photoGridFile);
@@ -55,16 +58,6 @@ public class RootViewController implements Initializable {
   @FXML
   private void exportToExcel(ActionEvent event) {
     controller.exportData();
-  }
-  
-  public void submitUserInformation() {
-    
-  }
-  
-  public void submitUserPictures() {
-    
-  }
-  
-  
+  } 
 
 }

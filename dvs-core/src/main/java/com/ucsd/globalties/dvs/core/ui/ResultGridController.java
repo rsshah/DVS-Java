@@ -17,6 +17,11 @@ import javafx.scene.text.Text;
 import com.ucsd.globalties.dvs.core.EyeDisease;
 import com.ucsd.globalties.dvs.core.Main;
 
+/**
+ * Implementation logic for the result grid.
+ * @author Sabit
+ *
+ */
 public class ResultGridController implements Initializable, ControlledUpdateScreen {
   private NavigationController navigationController;
   private RootViewController rootViewController;

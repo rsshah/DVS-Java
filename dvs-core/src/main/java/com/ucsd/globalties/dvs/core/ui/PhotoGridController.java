@@ -18,6 +18,11 @@ import org.controlsfx.dialog.Dialogs;
 
 import com.ucsd.globalties.dvs.core.Main;
 
+/**
+ * Implementation logic for photo grid
+ * @author Sabit
+ *
+ */
 public class PhotoGridController implements Initializable,ControlledScreen{
   private String hFilePath, vFilePath;
   private final FileChooser fileChooser = new FileChooser();

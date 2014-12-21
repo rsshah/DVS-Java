@@ -1,12 +1,27 @@
 package com.ucsd.globalties.dvs.core.ui;
 
-
+/**
+ * Common interface for our screens
+ * @author Sabit
+ *
+ */
 public interface ControlledScreen {
   
-  //This method will allow the injection of the Parent ScreenPane
-  public void setScreenParent(NavigationController uiController);
-  //Allows screens to access the controller to insert/retrieve data
+  /**
+   * Provide reference to navigation controller to be able to swap screens
+   * @param navigationController
+   */
+  public void setScreenParent(NavigationController navigationController);
+
+  /**
+   * Provide reference to root view to reference backend controller
+   * TODO improve this interaction
+   * @param rootViewController
+   */
   public void setRootView(RootViewController rootViewController);
-  //allows to reset views to default state
+  
+  /**
+   * Reset screen state to default configuration
+   */
   public void resetState();
 }

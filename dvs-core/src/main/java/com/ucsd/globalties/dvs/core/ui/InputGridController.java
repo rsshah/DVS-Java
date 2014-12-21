@@ -22,6 +22,11 @@ import com.ucsd.globalties.dvs.core.Controller;
 import com.ucsd.globalties.dvs.core.EyeDisease;
 import com.ucsd.globalties.dvs.core.Main;
 import com.ucsd.globalties.dvs.core.Patient;
+/**
+ * Interaction logic for input grid
+ * @author sabitn2
+ *
+ */
 @Slf4j
 public class InputGridController implements Initializable,ControlledScreen {
   public static String[] sceneLabels = {"Name","Date of Birth","Gender","Ethnicity","Language","Room Number","School","Screening Comment"};
@@ -94,7 +99,7 @@ public class InputGridController implements Initializable,ControlledScreen {
   public void setRootView(RootViewController rootViewController) {
     this.rootViewController = rootViewController;    
   }
-
+  
   @Override
   public void resetState() {
     for(Map.Entry<String, TextField> entry : inputValues.entrySet()) {

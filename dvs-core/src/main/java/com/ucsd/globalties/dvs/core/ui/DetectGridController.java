@@ -16,6 +16,11 @@ import javafx.scene.layout.TilePane;
 import lombok.extern.slf4j.Slf4j;
 
 import com.ucsd.globalties.dvs.core.Main;
+/**
+ * Interaction logic for the detection grid
+ * @author Sabit
+ *
+ */
 @Slf4j
 public class DetectGridController implements Initializable, ControlledUpdateScreen{
   private NavigationController navigationController;
