@@ -5,8 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.ucsd.globalties.dvs.core.ui.MainController;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Builder;
@@ -70,7 +68,7 @@ public class Patient {
    */
   public Map<String,String> getPatientData() {
     Map<String,String> data = new HashMap<String,String>();
-    String[] labels = MainController.sceneLabels;
+    String[] labels = Main.sceneLabels;
     data.put(labels[0], name);
     data.put(labels[1], birth);
     data.put(labels[2], gender);

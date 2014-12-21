@@ -3,7 +3,6 @@ package com.ucsd.globalties.dvs.core.excel;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -15,8 +14,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import com.ucsd.globalties.dvs.core.Main;
 import com.ucsd.globalties.dvs.core.Patient;
-import com.ucsd.globalties.dvs.core.ui.MainController;
 @Slf4j
 public class ExcelDataGenerator {
   
@@ -33,7 +32,7 @@ public class ExcelDataGenerator {
       int rowNum = 0, cellNum = 0;
       Row fieldRow = s.createRow(rowNum++);
       
-      for(String field : MainController.sceneLabels) {
+      for(String field : Main.sceneLabels) {
         Cell c = fieldRow.createCell(cellNum++);
         c.setCellValue(field);
       }
@@ -42,7 +41,7 @@ public class ExcelDataGenerator {
         Row r = s.createRow(rowNum++);
         cellNum = 0;
         Map<String,String> patientData = p.getPatientData();
-        for(String field : MainController.sceneLabels) {
+        for(String field : Main.sceneLabels) {
           Cell c = r.createCell(cellNum++);
           c.setCellValue(patientData.get(field));
         }
