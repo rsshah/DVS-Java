@@ -102,4 +102,13 @@ public class PhotoGridController implements Initializable,ControlledScreen{
     }
   }
 
+  @Override
+  public void resetState() {
+    vFilePath = null;
+    hFilePath = null;
+    imgHoriz.setImage(null);
+    imgVert.setImage(null);
+    
+  }
+
 }

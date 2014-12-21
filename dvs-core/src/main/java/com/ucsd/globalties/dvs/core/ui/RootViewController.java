@@ -3,6 +3,7 @@ package com.ucsd.globalties.dvs.core.ui;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.MenuItem;
@@ -50,6 +51,11 @@ public class RootViewController implements Initializable {
     mainContainer.setScreen(Main.inputScreenID);
     root.getChildren().addAll(mainContainer);
   }  
+  
+  @FXML
+  private void exportToExcel(ActionEvent event) {
+    controller.exportData();
+  }
   
   public void submitUserInformation() {
     

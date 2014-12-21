@@ -1,16 +1,19 @@
 package com.ucsd.globalties.dvs.core.ui;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.StackPane;
 import lombok.extern.slf4j.Slf4j;
+
+import com.ucsd.globalties.dvs.core.tools.Pair;
 @Slf4j
 public class NavigationController extends StackPane {
   //Holds the screens to be displayed
-  private HashMap<String, Node> screens = new HashMap<>();
+  private Map<String, Pair<Node,ControlledScreen>> screens = new HashMap<>();
   private RootViewController rootViewController;
 
   public NavigationController(RootViewController rootViewController) {
@@ -19,14 +22,15 @@ public class NavigationController extends StackPane {
   }
 
   //Add the screen to the collection
-  public void addScreen(String name, Node screen) {
+  public void addScreen(String name, Pair<Node,ControlledScreen> screen) {
     screens.put(name, screen);
   }
 
   //Returns the Node with the appropriate name
   public Node getScreen(String name) {
-    return screens.get(name);
+    return screens.get(name).getLeft();
   }
+  
 
   //Loads the fxml file, add the screen to the screens collection and
   //finally injects the screenPane to the controller.
@@ -37,7 +41,7 @@ public class NavigationController extends StackPane {
       ControlledScreen myScreenController = ((ControlledScreen) myLoader.getController());
       myScreenController.setScreenParent(this);
       myScreenController.setRootView(rootViewController);
-      addScreen(name, loadScreen);
+      addScreen(name, new Pair<Node, ControlledScreen>(loadScreen,myScreenController));
       return true;
     } 
     catch (Exception e) {
@@ -53,12 +57,17 @@ public class NavigationController extends StackPane {
   // If there isn't any screen being displayed, the new screen is just added to the root.
   public boolean setScreen(String name) {       
     if (screens.get(name) != null) {   //screen loaded
+      Pair<Node, ControlledScreen> screenPair = screens.get(name);
+      if (screenPair.getRight() instanceof ControlledUpdateScreen) {
+        ((ControlledUpdateScreen) screenPair.getRight()).update();
+      }
       if (!getChildren().isEmpty()) {    //if there is more than one screen
         getChildren().remove(0);                    //remove the displayed screen
-        getChildren().add(0, screens.get(name));     //add the screen
+        getChildren().add(0, screenPair.getLeft());     //add the screen
       } 
       else {
-        getChildren().add(screens.get(name));       //no other screen is displayed so show
+        
+        getChildren().add(screenPair.getLeft());       //no other screen is displayed so show
       }
       return true;
     } 
@@ -77,5 +86,12 @@ public class NavigationController extends StackPane {
     else {
       return true;
     }
+  }
+
+  public void resetAll() {
+    for (Map.Entry<String, Pair<Node,ControlledScreen>> entry : screens.entrySet()) {
+      entry.getValue().getRight().resetState();
+    }
+    
   }
 }

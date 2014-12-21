@@ -21,12 +21,12 @@ public class ExcelDataGenerator {
   
   public static void exportPatientData(List<Patient> patientList) {
     if (patientList == null) {
+      log.info("nothing to export");
       return;
     }
     try {
-      SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/YYYY");
-      sdf.format(Calendar.getInstance().getTime());
-      FileOutputStream out = new FileOutputStream("DVS Date " +  sdf.toString() + ".xlsx");
+      SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-YYYY hm");
+      FileOutputStream out = new FileOutputStream(Main.OUTPUT_FILE + "DVS Data " +  sdf.format(Calendar.getInstance().getTime()) + ".xlsx");
       Workbook wb = new XSSFWorkbook();
       Sheet s = wb.createSheet("Patient Data");
       int rowNum = 0, cellNum = 0;

@@ -95,4 +95,11 @@ public class InputGridController implements Initializable,ControlledScreen {
     this.rootViewController = rootViewController;    
   }
 
+  @Override
+  public void resetState() {
+    for(Map.Entry<String, TextField> entry : inputValues.entrySet()) {
+      entry.getValue().clear();
+    }
+  }
+
 }

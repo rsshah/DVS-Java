@@ -11,7 +11,7 @@
         <menus>
           <Menu mnemonicParsing="false" text="More">
             <items>
-              <MenuItem fx:id="exportItem" mnemonicParsing="false" text="Export to Excel" />
+              <MenuItem fx:id="exportItem" mnemonicParsing="false" onAction="#exportToExcel" text="Export to Excel" />
             </items>
           </Menu>
         </menus>
