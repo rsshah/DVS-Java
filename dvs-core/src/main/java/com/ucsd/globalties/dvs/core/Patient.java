@@ -5,8 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.ucsd.globalties.dvs.core.ui.MainController;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Builder;
@@ -35,7 +33,8 @@ public class Patient {
    * Populate the patient's medical record with results from the diagnoses of all disease detectors.
    * BY THE WAY, this is lame. Back end code shouldn't really have null checks here, because that
    * should be prevented by the front end. The back end should never advance to this point with null 
-   * references to any necessary components. PLZ REFACTOR (front end code is pretty bad).
+   * references to any necessary components. 
+   * TODO PLZ REFACTOR.
    */
   public void diagnose() {
     for (Iterator<Photo> it = photos.iterator(); it.hasNext();) {
@@ -65,12 +64,12 @@ public class Patient {
   }
   
   /**
-   * This is kind of lame, plz refactor (front end code is pretty bad).
+   * TODO This is kind of lame, please refactor.
    * @return
    */
   public Map<String,String> getPatientData() {
     Map<String,String> data = new HashMap<String,String>();
-    String[] labels = MainController.sceneLabels;
+    String[] labels = Main.sceneLabels;
     data.put(labels[0], name);
     data.put(labels[1], birth);
     data.put(labels[2], gender);

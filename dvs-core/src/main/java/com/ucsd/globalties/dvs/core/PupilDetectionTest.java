@@ -20,7 +20,7 @@ import com.ucsd.globalties.dvs.core.tools.Pair;
  * Maven build procedures to a native library (because OpenCV is necessary 
  * for this test to run), but with the addition of the runtime native library 
  * loading function, this can be moved safely.
- * I may do it in the future.
+ * TODO move to test package
  * @author Rahul
  *
  */

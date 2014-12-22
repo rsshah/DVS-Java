@@ -58,8 +58,10 @@ public class Eye {
    * Basically uses the same algorithm from 
    * http://docs.opencv.org/trunk/modules/imgproc/doc/feature_detection.html?highlight=cvhoughcircles#houghcircles
    * with small value tweaks.
+   * @return Pupil
    */
   private Pupil findPupil() {
+    //random code so that debug output will not override each other
     int code = Math.abs((new Random()).nextInt());
     Mat src = new Mat();
     Mat gray = new Mat();

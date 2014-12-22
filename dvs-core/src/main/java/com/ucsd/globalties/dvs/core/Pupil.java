@@ -52,15 +52,16 @@ public class Pupil {
     if (whiteDot != null) {
       return whiteDot;
     }
+    //random code so that debug output will not override each other
     int code = (new Random()).nextInt();
     Mat src = new Mat();
     mat.copyTo(src);
     Mat gray = new Mat();
     Imgproc.cvtColor(src, gray, Imgproc.COLOR_BGR2GRAY);
-    Highgui.imwrite("gray-test.jpg", gray);
+    //Highgui.imwrite("gray-test.jpg", gray);
     // threshold the image for white values
     Double thresh = Imgproc.threshold(gray, gray, 240, 255, Imgproc.THRESH_BINARY);
-    Highgui.imwrite("thresh-test.jpg", gray);
+    //Highgui.imwrite("thresh-test.jpg", gray);
     List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
     Imgproc.findContours(gray.clone(), contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
     Imgproc.drawContours(gray, contours, -1, new Scalar(255, 255, 255), -1);
@@ -103,7 +104,7 @@ public class Pupil {
 
     // debug test
     Rect rect = Imgproc.boundingRect(whiteDotContour);
-    Highgui.imwrite("test" + code + ".jpg", src);
+    //Highgui.imwrite("test" + code + ".jpg", src);
     double wdarea = Math.PI * Math.pow(rect.width / 2, 2);
     //need: distance from white dot center to pupil center,
     //      angle between white dot center and pupil center

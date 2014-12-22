@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import com.ucsd.globalties.dvs.core.ui.RootViewController;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -26,9 +28,21 @@ public class Main extends Application {
   private static final String HAAR_FACE = "/haarcascade_frontalface_alt.xml";
   private static final String HAAR_EYE = "/haarcascade_eye.xml";
   
-//The paths of the face/eye detection resource fiels
- public static String HAAR_FACE_PATH;
- public static String HAAR_EYE_PATH;
+  //Mostly front end constants.
+  //TODO move to constants class or something
+  public static final String[] sceneLabels = {"Name","Date of Birth","Gender","Ethnicity","Language","Room Number","School","Screening Comment"};
+  public static final String inputScreenID = "inputGrid";
+  public static final String inputScreenFile = "/views/input_grid.fxml";
+  public static final String photoGridID = "photoGrid";
+  public static final String photoGridFile = "/views/photo_grid.fxml";
+  public static final String detectGridID = "detectGrid";
+  public static final String detectGridFile = "/views/detect_grid.fxml";
+  public static final String resultGridID = "resultGrid";
+  public static final String resultGridFile = "/views/result_grid.fxml";
+  
+  //The paths of the face/eye detection resource fields
+  public static String HAAR_FACE_PATH;
+  public static String HAAR_EYE_PATH;
   
   private static int BUFFER_SIZE = Short.MAX_VALUE;
   private static Controller controller;
@@ -105,20 +119,18 @@ public class Main extends Application {
     }
   }
 
-  public static Controller getController() {
-    return controller;
-  }
-
   /**
    * Launch the JavaFX UI
    */
   @Override
-  public void start(Stage stage) throws Exception {
-    stage.setTitle("Digital Vision Screening");
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/main.fxml"));
-    VBox vbox;
+  public void start(Stage stage) throws Exception {  
+    
     try {
-      vbox = (VBox) loader.load();
+      stage.setTitle("Digital Vision Screening");
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/main.fxml"));
+      VBox vbox = (VBox) loader.load();
+      RootViewController rootViewController = loader.getController();
+      rootViewController.setController(controller);
       stage.setScene(new Scene(vbox));
       stage.show();
     } catch (IOException e) {
