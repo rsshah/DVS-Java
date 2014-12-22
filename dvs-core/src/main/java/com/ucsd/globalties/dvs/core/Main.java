@@ -56,7 +56,6 @@ public class Main extends Application {
     if (!TEMP_DIR.exists()) {
       TEMP_DIR.mkdirs();
       log.info("temp dir did not exist; created folder: " + TEMP_DIR.getAbsolutePath());
-      System.exit(0);
     } else {
       log.info("temp dir already exists at " + TEMP_DIR.getAbsolutePath());
     }
