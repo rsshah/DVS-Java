@@ -47,10 +47,27 @@ public class Main extends Application {
 
   private static int BUFFER_SIZE = Short.MAX_VALUE;
   private static Controller controller;
-  public static final String OUTPUT_FILE = "output/";
+  public static String OUTPUT_FILE;
+  public static File TEMP_DIR;
 
   public static void main(String[] args) {
-    (new File("output")).mkdir(); // create temporary output folder
+    // create program directories
+    TEMP_DIR = new File(System.getProperty("java.io.tmpdir") + "ucsd-dvs");
+    if (!TEMP_DIR.exists()) {
+      TEMP_DIR.mkdirs();
+      log.info("temp dir did not exist; created folder: " + TEMP_DIR.getAbsolutePath());
+      System.exit(0);
+    } else {
+      log.info("temp dir already exists at " + TEMP_DIR.getAbsolutePath());
+    }
+    File outputDir = new File(TEMP_DIR.getAbsolutePath() + File.separator + "output");
+    if (!outputDir.exists()) {
+      outputDir.mkdirs();
+      log.info("output dir did not exist; created folder: " + outputDir.getAbsolutePath());
+    } else {
+      log.info("output dir already exists at: " + outputDir.getAbsolutePath());
+    }
+    OUTPUT_FILE = outputDir.getAbsolutePath() + File.separator;
     controller = new Controller();
     loadLibraryComponents();
     launch(args);
@@ -63,11 +80,33 @@ public class Main extends Application {
     // load OpenCV constants
     // System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
     loadOpencvLibrary();
-    // Workaround for "/" thing, load as file then get filepath
-    File fp = new File(Main.class.getResource(HAAR_FACE).getFile());
-    File ep = new File(Main.class.getResource(HAAR_EYE).getFile());
-    HAAR_FACE_PATH = fp.getAbsolutePath();
-    HAAR_EYE_PATH = ep.getAbsolutePath();
+    // write necessary haar files to temp dir if they don't already exist
+    File haarFaceFile = new File(TEMP_DIR.getAbsolutePath() + File.separator + HAAR_FACE);
+    File haarEyeFile = new File(TEMP_DIR.getAbsolutePath() + File.separator + HAAR_EYE);
+    log.info("haarfacefile: " + haarFaceFile.getAbsolutePath());
+    try {
+      if (!haarFaceFile.exists()) {
+        haarFaceFile.createNewFile();
+        InputStream faceIn = Main.class.getResourceAsStream(HAAR_FACE);
+        copyResourceToFile(faceIn, haarFaceFile);
+        log.info("haarface did not exist, created file at: " + HAAR_FACE_PATH);
+      } else {
+        log.info("haarface already exists at: " + haarFaceFile.getAbsolutePath());
+      }
+      if (!haarEyeFile.exists()) {
+        haarEyeFile.createNewFile();
+        InputStream eyeIn = Main.class.getResourceAsStream(HAAR_EYE);
+        copyResourceToFile(eyeIn, haarEyeFile);
+        log.info("haareye did not exist, created file at: " + HAAR_EYE_PATH);
+      } else {
+        log.info("haareye already exists at: " + haarEyeFile.getAbsolutePath());
+      }
+      HAAR_FACE_PATH = haarFaceFile.getAbsolutePath();
+      HAAR_EYE_PATH = haarEyeFile.getAbsolutePath();
+    } catch (IOException e) {
+      log.error("Error creating haarcascade data files", e);
+      System.exit(1); // welp, can't detect anything so might as well kill program
+    }
   }
 
   /**
@@ -77,8 +116,9 @@ public class Main extends Application {
   private static void loadOpencvLibrary() {
     try {
       InputStream in = null;
-      File fileOut = null;
       String osName = System.getProperty("os.name");
+      String fileName = "opencv_java249";
+      String ext = ".dll";
       log.info(osName);
       if (osName.startsWith("Windows")) {
         int bitness = Integer.parseInt(System.getProperty("sun.arch.data.model"));
@@ -91,28 +131,38 @@ public class Main extends Application {
         } else {
           log.info("Unknown bit detected - trying with 32 bit");
           in = Main.class.getResourceAsStream("/opencv/opencv_java249_x86.dll");
-
         }
-        fileOut = File.createTempFile("lib", ".dll");
+        
       } else if (osName.equals("Mac OS X")) {
         log.info("Mac os detected");
         in = Main.class.getResourceAsStream("/opencv/libopencv_java249.dylib");
-        fileOut = File.createTempFile("lib", ".dylib");
+        ext = ".dylib";
       }
-
-      OutputStream out = new BufferedOutputStream(new FileOutputStream(fileOut), BUFFER_SIZE);
-      int b = 0;
-
-      while ((b = in.read()) >= 0) {
-        out.write(b);
+      
+      File nativeLib = new File(TEMP_DIR.getAbsolutePath() + File.separator + fileName + ext);
+      if (nativeLib.exists()) {
+        log.info("native library already exists at: " + nativeLib.getAbsolutePath());
+        System.load(nativeLib.toString());
+      } else {
+        nativeLib.createNewFile();
+        copyResourceToFile(in, nativeLib);
+        log.info("native library created at: " + nativeLib.getAbsolutePath());
+        System.load(nativeLib.toString());
       }
-      out.flush();
-      in.close();
-      out.close();
-      System.load(fileOut.toString());
     } catch (Exception e) {
       throw new RuntimeException("Failed to load opencv native library", e);
     }
+  }
+  
+  private static void copyResourceToFile(InputStream in, File dst) throws IOException {
+    OutputStream out = new BufferedOutputStream(new FileOutputStream(dst), BUFFER_SIZE);
+    int b = 0;
+    while ((b = in.read()) >= 0) {
+      out.write(b);
+    }
+    out.flush();
+    in.close();
+    out.close();
   }
 
   /**
