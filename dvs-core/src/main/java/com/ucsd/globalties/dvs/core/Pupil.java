@@ -87,7 +87,7 @@ public class Pupil {
     // Find the closest contour that matches certain criteria (currently checks for size)
     for (Pair<MatOfPoint, Double> pair : contourDistances) {
       double area = Imgproc.contourArea(pair.getLeft());
-      log.info("whiteDot distance: " + pair.getRight() + ", area: " + area);
+      log.info("whiteDot distance: {}, area: {}", pair.getRight(), area);
       
       if (area < 10 || area > 200.0) { // basic bounds checking, may need some tuning
         continue;
@@ -116,10 +116,10 @@ public class Pupil {
       log.error("[WhiteDot Detection] unfulfilled invariant: adjacent edge of triangle is bigger than hypotenuse");
       return null;
     }
-    log.info("[WhiteDot Detection] Computing angle for xDist: " + xDist + ", dist: " + distance);
+    log.info("[WhiteDot Detection] Computing angle for xDist: {}, dist: {}", xDist, distance);
     double angle = Math.acos(xDist / distance);
     
-    log.info("[WhiteDot Detection] computed white dot with distance: " + distance + ", angle: " + Math.toDegrees(angle) + ", area: " + wdarea);
+    log.info("[WhiteDot Detection] computed white dot with distance: {}, angle: {}, area: {}", distance, Math.toDegrees(angle), wdarea);
     this.whiteDot = new WhiteDot(distance, wdarea, angle);
     return whiteDot;
   }

@@ -104,32 +104,32 @@ public class Eye {
     Core.circle(fsrc, new Point(finalPupil[0], finalPupil[1]), (int) finalPupil[2], new Scalar(255,0,0),2);
     Highgui.imwrite("detected-pupil.jpg", fsrc);*/
     
-    log.info("Pupil found: x: " + finalPupil[0] + " y: " + finalPupil[1] + " r: " + finalPupil[2]);
+    log.info("Pupil found: x: {} y: {} r: {}", finalPupil[0], finalPupil[1], finalPupil[2]);
     //Crop eye mat and create pupil mat
     Point topLeft = new Point(finalPupil[0]-finalPupil[2],finalPupil[1]-finalPupil[2]);
     Point bottomRight = new Point(finalPupil[0]+finalPupil[2],finalPupil[1]+finalPupil[2]);
     //check if top left point is negative and thus outside of image bounds and should be adjusted to be a valid point 
     //TODO do we even want these adjusted rects to be returned as pupils?
     if (topLeft.x < 0 || topLeft.y < 0) {
-      log.warn("Top left point is out of image bounds (" + topLeft.x + "," + topLeft.y + ").");
+      log.warn("Top left point is out of image bounds ({},{}).", topLeft.x, topLeft.y);
       if (topLeft.x < 0) {
         topLeft.x = 0;
       }
       if (topLeft.y < 0) {
         topLeft.y = 0;
       }
-      log.warn("Continuing with (" + topLeft.x + "," + topLeft.y + ").");
+      log.warn("Continuing with ({},{}).", topLeft.x, topLeft.y);
     }
     //check if bottom right point is larger than img size and thus should be adjusted
     if (bottomRight.x > src.size().width || bottomRight.y > src.size().height) {
-      log.warn("Bottom right point is out of image bounds (" + bottomRight.x + "," + bottomRight.y + ")."); 
+      log.warn("Bottom right point is out of image bounds ({},{}).", bottomRight.x, bottomRight.y); 
       if (bottomRight.x > src.size().width) {
         bottomRight.x = src.size().width;
       }
       if (bottomRight.y > src.size().height) {
         bottomRight.y = src.size().height;
       }
-      log.warn("Continuing with (" + bottomRight.x + "," + bottomRight.y + ").");
+      log.warn("Continuing with ({},{})", bottomRight.x, bottomRight.y);
     }
     Rect pupilArea = new Rect(topLeft, bottomRight);
     Mat pupilMat = new Mat(src, pupilArea);

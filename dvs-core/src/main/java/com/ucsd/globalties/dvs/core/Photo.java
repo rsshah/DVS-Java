@@ -72,7 +72,7 @@ public class Photo {
     // find faces and put the results inside of the faceDetections object.
     faceDetector.detectMultiScale(image, faceDetections, 1.05, 2, flag, new Size(30,30), new Size(image.width(),image.height()));
 
-    log.info(String.format("Detected %s faces for img: %s", faceDetections.toArray().length, path));
+    log.info("Detected {} faces for img: {}", faceDetections.toArray().length, path);
     Rect detectedFace;
     if (faceDetections == null || faceDetections.toArray().length == 0) {
       // go straight into eye detection on current image if no face is found
@@ -98,7 +98,7 @@ public class Photo {
     eyeDetector.detectMultiScale(faceImage, eyeDetections);
 
     List<Rect> detectedEyes = eyeDetections.toList();
-    log.info(String.format("Detected %s eyes for img: %s", detectedEyes.size(), path));
+    log.info("Detected {} eyes for img: {}", detectedEyes.size(), path);
     List<Rect> eyes = new ArrayList<>(2);
     if (detectedEyes.size() < 2) {
       log.error("Minimum two eyes required.");

@@ -13,7 +13,7 @@ import com.ucsd.globalties.dvs.core.Photo.PhotoType;
 import com.ucsd.globalties.dvs.core.excel.ExcelDataGenerator;
 
 /**
- * A cannibalized MVC artifact that hides access of the logic (e.g. the Patient class)
+ * An MVC-esque artifact that hides access of the logic (e.g. the Patient class)
  * from the front-end. Maybe you can improve this (specifically the front-end exclusive 
  * pieces) but for now you may add to this if necessary, because this class should not have 
  * much more functionality unless the front-end requires it.
